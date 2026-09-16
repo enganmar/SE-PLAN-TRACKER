@@ -563,7 +563,7 @@
     let currentLang = localStorage.getItem('se_study_lang') || 'ar';
     let currentTheme = localStorage.getItem('se_study_theme') || 'dark';
 
-    // شبكة أعمدة عمودية ثابتة متطابقة ومسافة رأسية 190px لتمرير قنوات الأسهم بنظافة
+    // توزيع المواد على أعمدة رأسية ثابتة وقنوات عبور رأسية واسعة (190px)
     const nodes = [
       // الصف 1: الأساسيات (y: 140)
       { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال", name_en: "Arabic\nCommunication", cr: 3, x: 1200, y: 140, stroke: "#f43f5e" },
@@ -649,29 +649,25 @@
       { from: "proj1", to: "proj2", type: "dashed" }
     ];
 
-    let userState = JSON.parse(localStorage.getItem('se_study_graph_vPERFECT') || '{}');
+    let userState = JSON.parse(localStorage.getItem('se_study_graph_vPERFECT2') || '{}');
     let activeCourseId = null;
 
     const scene = document.getElementById('scene');
     const nodesMap = {};
     nodes.forEach(n => nodesMap[n.id] = n);
 
-    // خوارزمية التوجيه الشبكي المتعامد المطور (Dedicated Channel Orthogonal Router)
     function generateOrthogonalPath(source, target, offset = 0) {
       const r = ringRadius;
       
-      // مسار رأسي مباشر تماماً للمواد التي تقع تحت بعضها
       if (Math.abs(source.x - target.x) < 10 && target.y > source.y) {
         return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 4}`;
       }
 
-      // مسار قنوات العبور بين الصفوف
       if (target.y > source.y) {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
         const endY = target.y - r - 4;
-        // القناة في منتصف المسافة الفارغة تماماً
         const channelY = source.y + (target.y - source.y) / 2 + offset;
 
         return `M ${startX} ${startY} 
@@ -680,7 +676,6 @@
                 L ${endX} ${endY}`;
       }
 
-      // المسار الأفقي للمواد المتزامنة
       if (Math.abs(source.y - target.y) <= 30) {
         const isLeft = target.x < source.x;
         const startX = source.x + (isLeft ? -r : r);
@@ -759,7 +754,6 @@
         const target = nodesMap[l.to];
         if (!source || !target) return;
 
-        // إزاحة خفيفة بين الخطوط المتوازية في نفس الممر
         const channelOffset = (idx % 5 - 2) * 8;
         const d = generateOrthogonalPath(source, target, channelOffset);
 
@@ -843,8 +837,9 @@
 
         const nameText = currentLang === 'ar' ? n.name_ar : n.name_en;
         const lines = nameText.split('\n');
-        const lineHeight = 13;
-        const startY = n.y - ((lines.length - 1) * lineHeight) / 2 - 3;
+        // تباعد أسطر مضبوط بدقة (11.5px) لمنع تمدد النص خارج الدائرة
+        const lineHeight = 11.5;
+        const startY = n.y - ((lines.length - 1) * lineHeight) / 2 - 2;
 
         lines.forEach((txt, idx) => {
           const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
@@ -857,7 +852,7 @@
 
         const crEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         crEl.setAttribute("x", n.x);
-        crEl.setAttribute("y", n.y + 25);
+        crEl.setAttribute("y", n.y + 23);
         crEl.setAttribute("class", "node-credits");
         crEl.textContent = `${n.cr} ${t.crSuffix}`;
         g.appendChild(crEl);
@@ -920,7 +915,7 @@
       } else {
         userState[activeCourseId] = status;
       }
-      localStorage.setItem('se_study_graph_vPERFECT', JSON.stringify(userState));
+      localStorage.setItem('se_study_graph_vPERFECT2', JSON.stringify(userState));
 
       const nodeEl = document.getElementById(`node-${activeCourseId}`);
       if (nodeEl) {
