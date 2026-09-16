@@ -692,14 +692,29 @@
         return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 4}`;
       }
 
-      // 2. مسار التحليل العددي النازل إلى أمن البرمجيات (يهبط رأسياً في مساره الخاص دون قطع الدوائر)
+      // 2. تحليل عددي → أمن البرمجيات:
+      // نخرج أولاً إلى الممر بين الأعمدة، ثم ننزل في فراغ لا توجد فيه مواد،
+      // وبعدها ندخل إلى أمن البرمجيات من الأعلى. هذا يمنع قطع الخوارزميات
+      // وتوثيق البرمجيات وأي عقد تقع على العمود x=910.
       if (source.id === "num_anal" && target.id === "cyber_sec") {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
         const endY = target.y - r - 4;
-        const channelY = nodesMap["cyber_sec"].y - 75; // يكسر في الممر الفارغ فوق صف أمن البرمجيات
-        return `M ${startX} ${startY} L ${startX} ${channelY} L ${endX} ${channelY} L ${endX} ${endY}`;
+
+        // x=840 يقع بين عمودي 910 و770 ولا توجد عليه مادة قبل مشروع التخرج.
+        const safeX = 840;
+
+        // ممر قصير أسفل المصدر، ثم نزول في العمود الآمن.
+        const exitY = startY + 24;
+        const enterY = endY - 24;
+
+        return `M ${startX} ${startY}
+                L ${startX} ${exitY}
+                L ${safeX} ${exitY}
+                L ${safeX} ${enterY}
+                L ${endX} ${enterY}
+                L ${endX} ${endY}`;
       }
 
       // 3. مسار مقدمة تكنولوجيا المعلومات النازل إلى صفحات الويب (يمر من القناة اليسارية الخالية)
