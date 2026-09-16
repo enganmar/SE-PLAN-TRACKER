@@ -607,7 +607,7 @@
       { id: "num_anal", name_ar: "تحليل\nعددي", name_en: "Numerical\nAnalysis", cr: 3, x: 1310, y: 420, stroke: "#f472b6" },
       { id: "leadership", name_ar: "القيادة\nوالمسؤولية\nالمجتمعية", name_en: "Leadership &\nResponsibility", cr: 2, x: 1090, y: 420, stroke: "#8b5cf6" },
       { id: "oop", name_ar: "مقدمة في\nالبرمجة\nالكينونية", name_en: "Intro to\nOOP", cr: 3, x: 870, y: 420, stroke: "#b91c1c" },
-      { id: "comm_ethics", name_ar: "مهارات\nالاتصال\nوأخلاقيات المهنة", name_en: "Ethics & Comm.\nSkills", cr: 2, x: 650, y: 420, stroke: "#8b5cf6" },
+      { id: "comm_ethics", name_ar: "مهارات\nالاتصال\nوأخلاقيات المهنة", name_en: "Ethics & Comm.\nSkills", cr: 2, x: 650, y: 420, stroke: "#0284c7" },
       { id: "entrep", name_ar: "الريادة\nوالابتكار", name_en: "Entrepreneurship\n& Innovation", cr: 2, x: 430, y: 420, stroke: "#8b5cf6" },
 
       // الصف 3 (y: 520)
@@ -665,12 +665,10 @@
       { from: "prog1", to: "oop", type: "solid" },
 
       // الصف 2 -> 3
-      //{ from: "prob", to: "ds", type: "solid" },
-      //{ from: "prog1", to: "discrete", type: "solid" },
       { from: "oop", to: "oop_java", type: "solid" },
-      { from: "prog1", to: "dig_logic", type: "solid" },
-      //{ from: "intro_it", to: "data_modeling", type: "solid" },
-      //{ from: "intro_it", to: "intro_web", type: "solid" },
+      { from: "oop", to: "dig_logic", type: "dashed" },
+      { from: "oop", to: "data_modeling", type: "solid" },
+      { from: "oop", to: "intro_web", type: "solid" },
 
       // الصف 3 -> 4
       { from: "ds", to: "algo", type: "dashed" },
