@@ -13,6 +13,7 @@
       --bg-color: #060911;
       --viewport-bg: radial-gradient(circle at center, #0f172a 0%, #060911 100%);
       --panel-bg: #0b1120;
+      --panel-bg-translucent: rgba(11, 17, 32, 0.7);
       --card-bg: #1e293b;
       --border-color: #334155;
       --text-main: #f8fafc;
@@ -46,6 +47,7 @@
       --bg-color: #f8fafc;
       --viewport-bg: radial-gradient(circle at center, #ffffff 0%, #e2e8f0 100%);
       --panel-bg: #ffffff;
+      --panel-bg-translucent: rgba(255, 255, 255, 0.7);
       --card-bg: #ffffff;
       --border-color: #cbd5e1;
       --text-main: #0f172a;
@@ -94,15 +96,17 @@
 
     #dashboard {
       position: absolute;
-      top: 14px;
-      left: 14px;
-      right: 14px;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
-      background: var(--panel-bg);
-      border-radius: 16px;
+      background: var(--panel-bg-translucent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 0;
       padding: 12px 18px 14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
       gap: 9px;
@@ -229,14 +233,14 @@
 
     svg#canvas { width: 100%; height: 100%; display: block; }
 
-    .link-solid { stroke: var(--link-color); stroke-width: 2.2; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
-    .link-dashed { stroke: var(--link-color); stroke-width: 2.2; stroke-dasharray: 6,6; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
+    .link-solid { stroke: var(--link-color); stroke-width: 3; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
+    .link-dashed { stroke: var(--link-color); stroke-width: 3; stroke-dasharray: 6,6; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
 
     .node-group { cursor: pointer; transition: transform 0.15s ease; transform-box: fill-box; transform-origin: center; }
 
     @media (hover: hover) and (pointer: fine) {
       .node-group:hover { transform: scale(1.05); }
-      .node-group:hover .node-circle { stroke-width: 4px; }
+      .node-group:hover .node-circle { stroke-width: 5px; }
       .node-group:hover .node-mask { filter: brightness(1.1); }
     }
 
@@ -248,7 +252,7 @@
 
     .node-circle {
       fill: transparent;
-      stroke-width: 3.5px;
+      stroke-width: 4.5px;
       transition: all 0.2s ease;
     }
     .status-ring {
@@ -259,28 +263,49 @@
     }
 
     .node-text {
-      font-size: 10px;
-      font-weight: 600;
-      text-anchor: middle;
-      dominant-baseline: central;
+      font-size: 12.5px;
+      font-weight: 700;
       fill: var(--node-text);
-      pointer-events: none;
-      transition: fill 0.25s ease;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      user-select: none;
+      transition: fill 0.3s;
     }
     .node-credits {
-      font-size: 9px;
+      font-size: 11px;
       font-weight: 600;
-      text-anchor: middle;
-      dominant-baseline: central;
       fill: var(--accent);
-      pointer-events: none;
+      text-anchor: middle;
+      user-select: none;
+      transition: fill 0.3s;
     }
 
-    .status-completed .status-ring { stroke: #10b981; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #10b981); }
+    /* Arrow Hover Highlighting */
+    #scene.dimmed > * {
+      opacity: 0.15;
+      transition: opacity 0.2s;
+    }
+    #scene.dimmed .highlighted-arrow-group,
+    #scene.dimmed .highlighted-node {
+      opacity: 1 !important;
+      transition: opacity 0.2s;
+    }
+    #scene.dimmed .highlighted-node .node-circle {
+      stroke: var(--accent) !important;
+      stroke-width: 4px !important;
+      filter: drop-shadow(0 0 10px var(--accent-soft));
+    }
+    path.highlighted-arrow {
+      stroke: var(--accent) !important;
+      stroke-width: 5px !important;
+      filter: drop-shadow(0 0 6px var(--accent-soft));
+    }
+
+    .status-completed .status-ring { stroke: #10b981; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #10b981); }
     .status-completed .node-mask { fill: var(--c-completed-bg); }
     .status-completed .node-text { fill: var(--c-completed-text) !important; }
 
-    .status-current .status-ring { stroke: #3b82f6; stroke-width: 4.5px; animation: pulse-current-ring 2.6s ease-in-out infinite; }
+    .status-current .status-ring { stroke: #3b82f6; stroke-width: 6px; animation: pulse-current-ring 2.6s ease-in-out infinite; }
     .status-current .node-mask { fill: var(--c-current-bg); }
     .status-current .node-text { fill: var(--c-current-text); }
     @keyframes pulse-current-ring {
@@ -288,19 +313,19 @@
       50% { filter: drop-shadow(0 0 calc(var(--glow-intensity) * 1.8) #3b82f6); }
     }
 
-    .status-next .status-ring { stroke: #f59e0b; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #f59e0b); }
+    .status-next .status-ring { stroke: #f59e0b; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #f59e0b); }
     .status-next .node-mask { fill: var(--c-next-bg); }
     .status-next .node-text { fill: var(--c-next-text); }
 
-    .status-summer .status-ring { stroke: #ec4899; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #ec4899); }
+    .status-summer .status-ring { stroke: #ec4899; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #ec4899); }
     .status-summer .node-mask { fill: var(--c-summer-bg); }
     .status-summer .node-text { fill: var(--c-summer-text); }
 
-    .status-next-year .status-ring { stroke: #a855f7; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #a855f7); }
+    .status-next-year .status-ring { stroke: #a855f7; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #a855f7); }
     .status-next-year .node-mask { fill: var(--c-next-year-bg); }
     .status-next-year .node-text { fill: var(--c-next-year-text); }
 
-    .status-term-2028 .status-ring { stroke: #06b6d4; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #06b6d4); }
+    .status-term-2028 .status-ring { stroke: #06b6d4; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #06b6d4); }
     .status-term-2028 .node-mask { fill: var(--c-term-2028-bg); }
     .status-term-2028 .node-text { fill: var(--c-term-2028-text); }
 
@@ -400,7 +425,7 @@
     .zoom-btn.fit-btn { font-size: 0.88rem; color: var(--accent); }
 
     @media (max-width: 768px) {
-      #dashboard { padding: 9px 12px; border-radius: 12px; gap: 7px; }
+      #dashboard { padding: 9px 12px; border-radius: 0; gap: 7px; }
       .dash-header h2 { font-size: 0.88rem; }
       .stats-row { font-size: 0.68rem; gap: 5px; }
       .stat-badge { padding: 2px 7px; }
@@ -462,7 +487,7 @@
     </div>
     <div class="legend-item">
       <span class="badge-dot" style="background: #f43f5e;"></span>
-      <span>متطلبات جامعة إجبارية</span>
+      <span id="lblLegMandatory">متطلبات جامعة إجبارية</span>
     </div>
   </div>
 
@@ -475,11 +500,11 @@
   <div id="viewport">
     <svg id="canvas">
       <defs>
-        <marker id="arrow-solid" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
-          <path d="M 0 0 L 7 4 L 0 8 Z" fill="var(--link-color)" />
+        <marker id="arrow-solid" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+          <path d="M 0 0 L 9 5 L 0 10 Z" fill="var(--link-color)" />
         </marker>
-        <marker id="arrow-dashed" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
-          <path d="M 0 0 L 7 4 L 0 8 Z" fill="var(--link-color)" />
+        <marker id="arrow-dashed" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+          <path d="M 0 0 L 9 5 L 0 10 Z" fill="var(--link-color)" />
         </marker>
       </defs>
       <g id="scene"></g>
@@ -498,8 +523,8 @@
   </div>
 
   <script>
-    const nodeRadius = 38;
-    const ringRadius = 45;
+    const nodeRadius = 52;
+    const ringRadius = 60;
 
     const translations = {
       ar: {
@@ -521,6 +546,7 @@
         legTitle: "دليل التوجيه الشبكي:",
         legPass: "سابق نجاح",
         legStudy: "سابق دراسة / متزامن",
+        legMandatory: "متطلبات جامعة إجبارية",
         mComp: "✅ مكتمل",
         mCurr: "📘 الفصل الأول 2026/2027",
         mNext: "⏳ الفصل الثاني 2027",
@@ -549,6 +575,7 @@
         legTitle: "Orthogonal Routing Legend:",
         legPass: "Prerequisite (Pass)",
         legStudy: "Prerequisite / Co-requisite",
+        legMandatory: "Mandatory University Req.",
         mComp: "✅ Completed",
         mCurr: "📘 Fall 2026/2027",
         mNext: "⏳ Spring 2027",
@@ -565,65 +592,65 @@
 
     const nodes = [
       // الصف 1 (y: 140)
-      { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال\nوالتواصل", name_en: "Arabic\nCommunication", cr: 3, x: 1190, y: 140, stroke: "#8b5cf6" },
-      { id: "eng1", name_ar: "اللغة\nالإنجليزية\nومهارات الاتصال", name_en: "English\nCommunication", cr: 3, x: 1050, y: 140, stroke: "#8b5cf6" },
-      { id: "calc2", name_ar: "تفاضل\nوتكامل 2", name_en: "Calculus 2", cr: 3, x: 910, y: 140, stroke: "#f472b6" },
-      { id: "calc1", name_ar: "تفاضل\nوتكامل 1", name_en: "Calculus 1", cr: 3, x: 770, y: 140, stroke: "#f472b6" },
-      { id: "prog1", name_ar: "مقدمة\nفي البرمجة", name_en: "Intro to\nProgramming", cr: 3, x: 630, y: 140, stroke: "#f59e0b" },
-      { id: "intro_it", name_ar: "مقدمة إلى\nتكنولوجيا\nالمعلومات", name_en: "Intro to\nIT", cr: 3, x: 490, y: 140, stroke: "#b91c1c" },
-      { id: "uni_elec1", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (1)", cr: 3, x: 350, y: 140, stroke: "#64748b" },
+      { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال\nوالتواصل", name_en: "Arabic\nCommunication", cr: 3, x: 1750, y: 140, stroke: "#8b5cf6" },
+      { id: "eng1", name_ar: "اللغة\nالإنجليزية\nومهارات الاتصال", name_en: "English\nCommunication", cr: 3, x: 1530, y: 140, stroke: "#8b5cf6" },
+      { id: "calc2", name_ar: "تفاضل\nوتكامل 2", name_en: "Calculus 2", cr: 3, x: 1310, y: 140, stroke: "#f472b6" },
+      { id: "calc1", name_ar: "تفاضل\nوتكامل 1", name_en: "Calculus 1", cr: 3, x: 1090, y: 140, stroke: "#f472b6" },
+      { id: "prog1", name_ar: "مقدمة\nفي البرمجة", name_en: "Intro to\nProgramming", cr: 3, x: 870, y: 140, stroke: "#f59e0b" },
+      { id: "intro_it", name_ar: "مقدمة إلى\nتكنولوجيا\nالمعلومات", name_en: "Intro to\nIT", cr: 3, x: 650, y: 140, stroke: "#b91c1c" },
+      { id: "uni_elec1", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (1)", cr: 3, x: 430, y: 140, stroke: "#64748b" },
       { id: "life_skills", name_ar: "المهارات\nالحياتية", name_en: "Life\nSkills", cr: 2, x: 210, y: 140, stroke: "#8b5cf6" },
 
       // الصف 2 (y: 330)
-      { id: "uni_elec2", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (2)", cr: 3, x: 1190, y: 330, stroke: "#64748b" },
-      { id: "prob", name_ar: "إحصاء\nواحتمالات", name_en: "Probability &\nStatistics", cr: 3, x: 1050, y: 330, stroke: "#f472b6" },
-      { id: "num_anal", name_ar: "تحليل\nعددي", name_en: "Numerical\nAnalysis", cr: 3, x: 910, y: 330, stroke: "#f472b6" },
-      { id: "leadership", name_ar: "القيادة\nوالمسؤولية\nالمجتمعية", name_en: "Leadership &\nResponsibility", cr: 2, x: 770, y: 330, stroke: "#8b5cf6" },
-      { id: "oop", name_ar: "مقدمة في\nالبرمجة\nالكينونية", name_en: "Intro to\nOOP", cr: 3, x: 630, y: 330, stroke: "#b91c1c" },
-      { id: "comm_ethics", name_ar: "مهارات\nالاتصال\nوأخلاقيات المهنة", name_en: "Ethics & Comm.\nSkills", cr: 2, x: 490, y: 330, stroke: "#8b5cf6" },
-      { id: "entrep", name_ar: "الريادة\nوالابتكار", name_en: "Entrepreneurship\n& Innovation", cr: 2, x: 350, y: 330, stroke: "#8b5cf6" },
+      { id: "uni_elec2", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (2)", cr: 3, x: 1750, y: 420, stroke: "#64748b" },
+      { id: "prob", name_ar: "إحصاء\nواحتمالات", name_en: "Probability &\nStatistics", cr: 3, x: 1530, y: 420, stroke: "#f472b6" },
+      { id: "num_anal", name_ar: "تحليل\nعددي", name_en: "Numerical\nAnalysis", cr: 3, x: 1310, y: 420, stroke: "#f472b6" },
+      { id: "leadership", name_ar: "القيادة\nوالمسؤولية\nالمجتمعية", name_en: "Leadership &\nResponsibility", cr: 2, x: 1090, y: 420, stroke: "#8b5cf6" },
+      { id: "oop", name_ar: "مقدمة في\nالبرمجة\nالكينونية", name_en: "Intro to\nOOP", cr: 3, x: 870, y: 420, stroke: "#b91c1c" },
+      { id: "comm_ethics", name_ar: "مهارات\nالاتصال\nوأخلاقيات المهنة", name_en: "Ethics & Comm.\nSkills", cr: 2, x: 650, y: 420, stroke: "#8b5cf6" },
+      { id: "entrep", name_ar: "الريادة\nوالابتكار", name_en: "Entrepreneurship\n& Innovation", cr: 2, x: 430, y: 420, stroke: "#8b5cf6" },
 
       // الصف 3 (y: 520)
-      { id: "uni_elec3", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (3)", cr: 3, x: 1190, y: 520, stroke: "#64748b" },
-      { id: "mil_sci", name_ar: "علوم عسكرية", name_en: "Military\nSciences", cr: 3, x: 1050, y: 520, stroke: "#8b5cf6" },
-      { id: "discrete", name_ar: "رياضيات\nمتقطعة", name_en: "Discrete\nMath", cr: 3, x: 910, y: 520, stroke: "#f472b6" },
-      { id: "ds", name_ar: "تراكيب\nالبيانات", name_en: "Data\nStructures", cr: 3, x: 770, y: 520, stroke: "#f59e0b" },
-      { id: "oop_java", name_ar: "البرمجة\nبلغة جافا", name_en: "Java\nProgramming", cr: 3, x: 630, y: 520, stroke: "#b91c1c" },
-      { id: "dig_logic", name_ar: "تصميم\nالمنطق\nالرقمي", name_en: "Digital Logic\nDesign", cr: 3, x: 490, y: 520, stroke: "#a3e635" },
-      { id: "data_modeling", name_ar: "نمذجة\nالبيانات", name_en: "Data\nModeling", cr: 3, x: 350, y: 520, stroke: "#b91c1c" },
-      { id: "intro_web", name_ar: "مقدمة في\nصفحات الويب", name_en: "Intro to Web\nPages", cr: 3, x: 210, y: 520, stroke: "#0284c7" },
+      { id: "uni_elec3", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (3)", cr: 3, x: 1750, y: 700, stroke: "#64748b" },
+      { id: "mil_sci", name_ar: "علوم عسكرية", name_en: "Military\nSciences", cr: 3, x: 1530, y: 700, stroke: "#8b5cf6" },
+      { id: "discrete", name_ar: "رياضيات\nمتقطعة", name_en: "Discrete\nMath", cr: 3, x: 1310, y: 700, stroke: "#f472b6" },
+      { id: "ds", name_ar: "تراكيب\nالبيانات", name_en: "Data\nStructures", cr: 3, x: 1090, y: 700, stroke: "#f59e0b" },
+      { id: "oop_java", name_ar: "البرمجة\nبلغة جافا", name_en: "Java\nProgramming", cr: 3, x: 870, y: 700, stroke: "#b91c1c" },
+      { id: "dig_logic", name_ar: "تصميم\nالمنطق\nالرقمي", name_en: "Digital Logic\nDesign", cr: 3, x: 650, y: 700, stroke: "#a3e635" },
+      { id: "data_modeling", name_ar: "نمذجة\nالبيانات", name_en: "Data\nModeling", cr: 3, x: 430, y: 700, stroke: "#b91c1c" },
+      { id: "intro_web", name_ar: "مقدمة في\nصفحات الويب", name_en: "Intro to Web\nPages", cr: 3, x: 210, y: 700, stroke: "#0284c7" },
 
       // الصف 4 (y: 710)
-      { id: "db_fund", name_ar: "أساسيات\nقواعد\nالبيانات", name_en: "Database\nFundamentals", cr: 3, x: 1190, y: 710, stroke: "#0284c7" },
-      { id: "se_fund", name_ar: "أساسيات\nهندسة\nالبرمجيات", name_en: "Software Eng.\nFundamentals", cr: 3, x: 1050, y: 710, stroke: "#b91c1c" },
-      { id: "algo", name_ar: "تحليل\nوتصميم\nالخوارزميات", name_en: "Algorithms\nAnalysis & Design", cr: 3, x: 910, y: 710, stroke: "#f59e0b" },
-      { id: "visual_prog", name_ar: "البرمجة\nالمرئية", name_en: "Visual\nProgramming", cr: 3, x: 770, y: 710, stroke: "#b91c1c" },
-      { id: "biz_data_comm", name_ar: "تراسل\nبيانات\nالأعمال", name_en: "Business Data\nCommunications", cr: 3, x: 630, y: 710, stroke: "#0284c7" },
-      { id: "dept_elec1", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(1)", cr: 3, x: 490, y: 710, stroke: "#b91c1c" },
-      { id: "web_dev", name_ar: "تطوير\nتطبيقات\nالويب", name_en: "Web App\nDevelopment", cr: 3, x: 350, y: 710, stroke: "#0284c7" },
+      { id: "db_fund", name_ar: "أساسيات\nقواعد\nالبيانات", name_en: "Database\nFundamentals", cr: 3, x: 1750, y: 980, stroke: "#0284c7" },
+      { id: "se_fund", name_ar: "أساسيات\nهندسة\nالبرمجيات", name_en: "Software Eng.\nFundamentals", cr: 3, x: 1530, y: 980, stroke: "#b91c1c" },
+      { id: "algo", name_ar: "تحليل\nوتصميم\nالخوارزميات", name_en: "Algorithms\nAnalysis & Design", cr: 3, x: 1310, y: 980, stroke: "#f59e0b" },
+      { id: "visual_prog", name_ar: "البرمجة\nالمرئية", name_en: "Visual\nProgramming", cr: 3, x: 1090, y: 980, stroke: "#b91c1c" },
+      { id: "biz_data_comm", name_ar: "تراسل\nبيانات\nالأعمال", name_en: "Business Data\nCommunications", cr: 3, x: 870, y: 980, stroke: "#0284c7" },
+      { id: "dept_elec1", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(1)", cr: 3, x: 650, y: 980, stroke: "#b91c1c" },
+      { id: "web_dev", name_ar: "تطوير\nتطبيقات\nالويب", name_en: "Web App\nDevelopment", cr: 3, x: 430, y: 980, stroke: "#0284c7" },
 
       // الصف 5 (y: 900)
-      { id: "se_req", name_ar: "هندسة\nمتطلبات\nالبرمجيات", name_en: "Software Req.\nEngineering", cr: 3, x: 1190, y: 900, stroke: "#b91c1c" },
-      { id: "sys_analysis", name_ar: "تحليل\nوتصميم\nالأنظمة", name_en: "Systems Analysis\n& Design", cr: 3, x: 1050, y: 900, stroke: "#b91c1c" },
-      { id: "sw_doc", name_ar: "توثيق\nالبرمجيات", name_en: "Software\nDocumentation", cr: 3, x: 910, y: 900, stroke: "#b91c1c" },
-      { id: "os", name_ar: "مبادئ نظم\nالتشغيل", name_en: "Operating\nSystems", cr: 3, x: 770, y: 900, stroke: "#f59e0b" },
-      { id: "se_lab", name_ar: "مختبر\nهندسة\nالبرمجيات", name_en: "Software Eng.\nLab", cr: 1, x: 630, y: 900, stroke: "#b91c1c" },
-      { id: "hci", name_ar: "تفاعل\nالإنسان\nوالحاسوب", name_en: "HCI", cr: 3, x: 490, y: 900, stroke: "#f59e0b" },
-      { id: "server_prog", name_ar: "برمجة\nالخادم -\nالمستفيد", name_en: "Client-Server\nProgramming", cr: 3, x: 350, y: 900, stroke: "#b91c1c" },
-      { id: "web_eng", name_ar: "هندسة\nتطبيقات\nالويب", name_en: "Web App\nEngineering", cr: 3, x: 210, y: 900, stroke: "#b91c1c" },
+      { id: "se_req", name_ar: "هندسة\nمتطلبات\nالبرمجيات", name_en: "Software Req.\nEngineering", cr: 3, x: 1750, y: 1260, stroke: "#b91c1c" },
+      { id: "sys_analysis", name_ar: "تحليل\nوتصميم\nالأنظمة", name_en: "Systems Analysis\n& Design", cr: 3, x: 1530, y: 1260, stroke: "#b91c1c" },
+      { id: "sw_doc", name_ar: "توثيق\nالبرمجيات", name_en: "Software\nDocumentation", cr: 3, x: 1310, y: 1260, stroke: "#b91c1c" },
+      { id: "os", name_ar: "مبادئ نظم\nالتشغيل", name_en: "Operating\nSystems", cr: 3, x: 1090, y: 1260, stroke: "#f59e0b" },
+      { id: "se_lab", name_ar: "مختبر\nهندسة\nالبرمجيات", name_en: "Software Eng.\nLab", cr: 1, x: 870, y: 1260, stroke: "#b91c1c" },
+      { id: "hci", name_ar: "تفاعل\nالإنسان\nوالحاسوب", name_en: "HCI", cr: 3, x: 650, y: 1260, stroke: "#f59e0b" },
+      { id: "server_prog", name_ar: "برمجة\nالخادم -\nالمستفيد", name_en: "Client-Server\nProgramming", cr: 3, x: 430, y: 1260, stroke: "#b91c1c" },
+      { id: "web_eng", name_ar: "هندسة\nتطبيقات\nالويب", name_en: "Web App\nEngineering", cr: 3, x: 210, y: 1260, stroke: "#b91c1c" },
 
       // الصف 6 (y: 1090)
-      { id: "se_testing", name_ar: "فحص\nالبرمجيات", name_en: "Software\nTesting", cr: 3, x: 1190, y: 1090, stroke: "#b91c1c" },
-      { id: "proj_mgmt", name_ar: "إدارة\nالمشاريع", name_en: "Project\nManagement", cr: 3, x: 1050, y: 1090, stroke: "#b91c1c" },
-      { id: "se_arch", name_ar: "معمارية\nوتصميم\nالبرمجيات", name_en: "Software Arch.\n& Design", cr: 3, x: 910, y: 1090, stroke: "#b91c1c" },
-      { id: "cyber_sec", name_ar: "أمن\nالبرمجيات", name_en: "Software\nSecurity", cr: 3, x: 770, y: 1090, stroke: "#10b981" },
-      { id: "dept_elec2", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(2)", cr: 3, x: 630, y: 1090, stroke: "#b91c1c" },
-      { id: "dept_elec3", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(3)", cr: 3, x: 490, y: 1090, stroke: "#b91c1c" },
-      { id: "training", name_ar: "تدريب\nميداني", name_en: "Field\nTraining", cr: 3, x: 350, y: 1090, stroke: "#b91c1c" },
+      { id: "se_testing", name_ar: "فحص\nالبرمجيات", name_en: "Software\nTesting", cr: 3, x: 1750, y: 1540, stroke: "#b91c1c" },
+      { id: "proj_mgmt", name_ar: "إدارة\nالمشاريع", name_en: "Project\nManagement", cr: 3, x: 1530, y: 1540, stroke: "#b91c1c" },
+      { id: "se_arch", name_ar: "معمارية\nوتصميم\nالبرمجيات", name_en: "Software Arch.\n& Design", cr: 3, x: 1310, y: 1540, stroke: "#b91c1c" },
+      { id: "cyber_sec", name_ar: "أمن\nالبرمجيات", name_en: "Software\nSecurity", cr: 3, x: 1090, y: 1540, stroke: "#10b981" },
+      { id: "dept_elec2", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(2)", cr: 3, x: 870, y: 1540, stroke: "#b91c1c" },
+      { id: "dept_elec3", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(3)", cr: 3, x: 650, y: 1540, stroke: "#b91c1c" },
+      { id: "training", name_ar: "تدريب\nميداني", name_en: "Field\nTraining", cr: 3, x: 430, y: 1540, stroke: "#b91c1c" },
 
       // الصف 7 (y: 1270)
-      { id: "proj1", name_ar: "مشروع تخرج\n1", name_en: "Graduation Proj\n(1)", cr: 1, x: 840, y: 1270, stroke: "#b91c1c" },
-      { id: "proj2", name_ar: "مشروع تخرج\n2", name_en: "Graduation Proj\n(2)", cr: 2, x: 700, y: 1270, stroke: "#b91c1c" }
+      { id: "proj1", name_ar: "مشروع تخرج\n1", name_en: "Graduation Proj\n(1)", cr: 1, x: 1200, y: 1805, stroke: "#b91c1c" },
+      { id: "proj2", name_ar: "مشروع تخرج\n2", name_en: "Graduation Proj\n(2)", cr: 2, x: 980, y: 1805, stroke: "#b91c1c" }
     ];
 
     // روابط الأسهم المطابقة بدقة للبوستر (تمت إزالة أي أسهم وهمية من تكنولوجيا المعلومات)
@@ -646,11 +673,11 @@
       //{ from: "intro_it", to: "intro_web", type: "solid" },
 
       // الصف 3 -> 4
-      { from: "ds", to: "algo", type: "solid" },
+      { from: "ds", to: "algo", type: "dashed" },
       { from: "oop_java", to: "visual_prog", type: "solid" },
       { from: "data_modeling", to: "db_fund", type: "solid" },
       { from: "oop_java", to: "se_fund", type: "solid" },
-      { from: "oop_java", to: "biz_data_comm", type: "solid" },
+      { from: "oop_java", to: "biz_data_comm", type: "dashed" },
       { from: "intro_web", to: "web_dev", type: "solid" },
 
       // الصف 4 -> 5
@@ -658,9 +685,9 @@
       { from: "se_fund", to: "se_req", type: "solid" },
       { from: "se_fund", to: "sys_analysis", type: "solid" },
       { from: "se_fund", to: "sw_doc", type: "solid" },
-      { from: "ds", to: "os", type: "solid" },
-      { from: "visual_prog", to: "se_lab", type: "solid" },
-      { from: "oop_java", to: "hci", type: "solid" },
+      { from: "se_fund", to: "se_lab", type: "solid" },
+      { from: "algo", to: "os", type: "dashed" },
+      { from: "visual_prog", to: "hci", type: "dashed" },
       { from: "web_dev", to: "server_prog", type: "solid" },
       { from: "web_dev", to: "web_eng", type: "solid" },
 
@@ -668,6 +695,7 @@
       { from: "se_req", to: "se_testing", type: "solid" },
       { from: "sys_analysis", to: "proj_mgmt", type: "solid" },
       { from: "sys_analysis", to: "se_arch", type: "solid" },
+      { from: "se_fund", to: "se_arch", type: "dashed" },
       { from: "num_anal", to: "cyber_sec", type: "dashed" },
 
       // مشاريع التخرج
@@ -687,34 +715,36 @@
       
       // مسار عمودي مباشر إذا كانت المادتان على نفس المحور الرأسي تماماً
       if (Math.abs(source.x - target.x) < 8 && target.y > source.y) {
-        return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 4}`;
+        return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 10}`;
       }
 
-      // مسار التحليل العددي إلى أمن البرمجيات (معزول في الفراغ الجانبي)
-      if (source.id === "num_anal" && target.id === "cyber_sec") {
+      // مسار التحليل العددي إلى أمن البرمجيات أو أي تخطي لصفوف متعددة
+      if (target.y - source.y > 310) {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
-        const endY = target.y - r - 4;
-        const safeX = 840;
-        const exitY = startY + 24;
-        const enterY = endY - 24;
+        const endY = target.y - r - 10;
+        
+        // نمرر الخط عبر الفراغ الرأسي بين الأعمدة
+        const channel1Y = source.y + 128 + offset;
+        const channel2Y = target.y - 150 + offset;
+        const gapX = target.x + 110; // الفراغ إلى يمين المادة الهدف
 
-        return `M ${startX} ${startY}
-                L ${startX} ${exitY}
-                L ${safeX} ${exitY}
-                L ${safeX} ${enterY}
-                L ${endX} ${enterY}
+        return `M ${startX} ${startY} 
+                L ${startX} ${channel1Y} 
+                L ${gapX} ${channel1Y} 
+                L ${gapX} ${channel2Y} 
+                L ${endX} ${channel2Y} 
                 L ${endX} ${endY}`;
       }
 
       // المسارات العادية بين الصفوف المتتالية
-      if (target.y > source.y && target.y - source.y <= 210) {
+      if (target.y > source.y && target.y - source.y <= 310) {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
-        const endY = target.y - r - 4;
-        const channelY = source.y + (target.y - source.y) / 2 + offset;
+        const endY = target.y - r - 10;
+        const channelY = source.y + 128 + offset;
 
         return `M ${startX} ${startY} 
                 L ${startX} ${channelY} 
@@ -726,7 +756,7 @@
       if (Math.abs(source.y - target.y) <= 30) {
         const isLeft = target.x < source.x;
         const startX = source.x + (isLeft ? -r : r);
-        const endX = target.x + (isLeft ? r + 4 : -r - 4);
+        const endX = target.x + (isLeft ? r + 10 : -r - 10);
         return `M ${startX} ${source.y} L ${endX} ${target.y}`;
       }
 
@@ -734,8 +764,8 @@
       const startX = source.x;
       const startY = source.y + r;
       const endX = target.x;
-      const endY = target.y - r - 4;
-      const channelY = source.y + 75 + offset;
+      const endY = target.y - r - 10;
+      const channelY = source.y + 128 + offset;
 
       return `M ${startX} ${startY} 
               L ${startX} ${channelY} 
@@ -770,6 +800,7 @@
       document.getElementById('lblLegendTitle').innerText = t.legTitle;
       document.getElementById('lblPrereqPass').innerText = t.legPass;
       document.getElementById('lblPrereqStudy').innerText = t.legStudy;
+      document.getElementById('lblLegMandatory').innerText = t.legMandatory;
 
       document.getElementById('btnMCompleted').innerText = t.mComp;
       document.getElementById('btnMCurrent').innerText = t.mCurr;
@@ -796,20 +827,74 @@
 
     function renderDiagram() {
       scene.innerHTML = '';
+      const defs = document.querySelector('defs');
+      if (defs) defs.innerHTML = `
+        <marker id="arrow-solid" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" refX="10" refY="10" orient="auto">
+          <path d="M 0 0 L 18 10 L 0 20 Z" fill="var(--link-color)" />
+        </marker>
+        <marker id="arrow-dashed" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" refX="10" refY="10" orient="auto">
+          <path d="M 0 0 L 18 10 L 0 20 Z" fill="var(--link-color)" />
+        </marker>
+        <marker id="arrow-highlighted" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" refX="10" refY="10" orient="auto">
+          <path d="M 0 0 L 18 10 L 0 20 Z" fill="var(--accent)" />
+        </marker>
+      `;
 
       links.forEach((l, idx) => {
         const source = nodesMap[l.from];
         const target = nodesMap[l.to];
         if (!source || !target) return;
 
-        const channelOffset = (idx % 4 - 1.5) * 8;
+        const sourceIdx = nodes.findIndex(n => n.id === source.id);
+        const channelOffset = (sourceIdx % 8 - 3.5) * 16;
         const d = generateOrthogonalPath(source, target, channelOffset);
+
+        const gPath = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("d", d);
         path.setAttribute("class", l.type === 'dashed' ? 'link-dashed' : 'link-solid');
+        
+        if (l.type === 'dashed') {
+          path.setAttribute("stroke-dasharray", "8, 6");
+        }
         path.setAttribute("marker-end", l.type === 'dashed' ? 'url(#arrow-dashed)' : 'url(#arrow-solid)');
-        scene.appendChild(path);
+
+        const hitPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        hitPath.setAttribute("d", d);
+        hitPath.setAttribute("stroke", "transparent");
+        hitPath.setAttribute("stroke-width", "25");
+        hitPath.setAttribute("fill", "none");
+        hitPath.style.cursor = 'pointer';
+        hitPath.style.pointerEvents = 'stroke';
+
+        gPath.appendChild(path);
+        gPath.appendChild(hitPath);
+
+        gPath.addEventListener('mouseenter', () => {
+          if (isMobileDevice()) return;
+          document.getElementById('scene').classList.add('dimmed');
+          gPath.classList.add('highlighted-arrow-group');
+          path.classList.add('highlighted-arrow');
+          path.setAttribute("marker-end", "url(#arrow-highlighted)");
+          const srcNode = document.getElementById(`node-${source.id}`);
+          const tgtNode = document.getElementById(`node-${target.id}`);
+          if (srcNode) srcNode.classList.add('highlighted-node');
+          if (tgtNode) tgtNode.classList.add('highlighted-node');
+        });
+        gPath.addEventListener('mouseleave', () => {
+          if (isMobileDevice()) return;
+          document.getElementById('scene').classList.remove('dimmed');
+          gPath.classList.remove('highlighted-arrow-group');
+          path.classList.remove('highlighted-arrow');
+          path.setAttribute("marker-end", l.type === 'dashed' ? 'url(#arrow-dashed)' : 'url(#arrow-solid)');
+          const srcNode = document.getElementById(`node-${source.id}`);
+          const tgtNode = document.getElementById(`node-${target.id}`);
+          if (srcNode) srcNode.classList.remove('highlighted-node');
+          if (tgtNode) tgtNode.classList.remove('highlighted-node');
+        });
+
+        scene.appendChild(gPath);
       });
 
       const t = translations[currentLang];
@@ -885,7 +970,7 @@
 
         const nameText = currentLang === 'ar' ? n.name_ar : n.name_en;
         const lines = nameText.split('\n');
-        const lineHeight = 11.5;
+        const lineHeight = 14;
         const startY = n.y - ((lines.length - 1) * lineHeight) / 2 - 2;
 
         lines.forEach((txt, idx) => {
@@ -899,7 +984,7 @@
 
         const crEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         crEl.setAttribute("x", n.x);
-        crEl.setAttribute("y", n.y + 23);
+        crEl.setAttribute("y", n.y + 31);
         crEl.setAttribute("class", "node-credits");
         crEl.textContent = `${n.cr} ${t.crSuffix}`;
         g.appendChild(crEl);
@@ -1020,177 +1105,9 @@
     const MIN_SCALE = 0.18, MAX_SCALE = 2.5;
     let fitTimeout = null;
 
-    function applyTransform() {
-      scene.setAttribute("transform", `translate(${currentX}, ${currentY}) scale(${scale})`);
-    }
-
-    function animatedTransform() {
-      scene.style.transition = 'transform 0.32s cubic-bezier(0.22,1,0.36,1)';
-      applyTransform();
-      clearTimeout(fitTimeout);
-      fitTimeout = setTimeout(() => { scene.style.transition = ''; }, 340);
-    }
-
-    function zoomAround(screenX, screenY, newScale) {
-      newScale = Math.min(Math.max(MIN_SCALE, newScale), MAX_SCALE);
-      const sceneX = (screenX - currentX) / scale;
-      const sceneY = (screenY - currentY) / scale;
-      currentX = screenX - sceneX * newScale;
-      currentY = screenY - sceneY * newScale;
-      scale = newScale;
-    }
-
-    function zoomStep(dir) {
-      const vw = viewport.clientWidth, vh = viewport.clientHeight;
-      zoomAround(vw / 2, vh / 2, scale * (dir > 0 ? 1.25 : 0.8));
-      animatedTransform();
-    }
-
-    function getGraphBounds() {
-      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-      nodes.forEach(n => {
-        minX = Math.min(minX, n.x - ringRadius - 6);
-        maxX = Math.max(maxX, n.x + ringRadius + 6);
-        minY = Math.min(minY, n.y - ringRadius - 16);
-        maxY = Math.max(maxY, n.y + ringRadius + 28);
-      });
-      return { minX, maxX, minY, maxY };
-    }
-
-    function centerOn(targetX, targetY, targetScale, animate) {
-      const vw = viewport.clientWidth, vh = viewport.clientHeight;
-      const headerH = document.getElementById('dashboard').getBoundingClientRect().height;
-      const availTop = headerH + 20;
-      const availH = Math.max(120, vh - availTop - 16);
-      scale = Math.min(Math.max(MIN_SCALE, targetScale), MAX_SCALE);
-      currentX = vw / 2 - targetX * scale;
-      currentY = availTop + availH / 2 - targetY * scale;
-      if (animate) animatedTransform(); else applyTransform();
-    }
-
-    function fitToScreen(animate) {
+    function constrainPan() {
       const b = getGraphBounds();
-      const graphW = b.maxX - b.minX;
-      const graphH = b.maxY - b.minY;
       const vw = viewport.clientWidth, vh = viewport.clientHeight;
       const headerH = document.getElementById('dashboard').getBoundingClientRect().height;
-      const pad = 24;
-      const availW = Math.max(100, vw - pad * 2);
-      const availH = Math.max(100, vh - headerH - pad * 2 - 16);
-      const fitScale = Math.min(availW / graphW, availH / graphH);
-      const midX = (b.minX + b.maxX) / 2;
-      const midY = (b.minY + b.maxY) / 2;
-      centerOn(midX, midY, fitScale, animate);
-    }
-
-    function mobileFocusScale() {
-      const vw = viewport.clientWidth;
-      return Math.min(1.05, Math.max(0.6, vw / 460));
-    }
-
-    function initialMobileView() {
-      const activeNodes = nodes.filter(n => userState[n.id] === 'current');
-      let tx, ty;
-      if (activeNodes.length) {
-        tx = activeNodes.reduce((s, n) => s + n.x, 0) / activeNodes.length;
-        ty = activeNodes.reduce((s, n) => s + n.y, 0) / activeNodes.length;
-      } else {
-        tx = 630; ty = 140;
-      }
-      centerOn(tx, ty, mobileFocusScale(), false);
-    }
-
-    function toggleCollapse() {
-      const dash = document.getElementById('dashboard');
-      dash.classList.toggle('collapsed');
-      document.getElementById('collapseBtn').textContent = dash.classList.contains('collapsed') ? '▾' : '▴';
-    }
-
-    const viewport = document.getElementById('viewport');
-
-    viewport.addEventListener('mousedown', (e) => {
-      if (e.target.closest('.node-group') || e.button !== 0) return;
-      isPanning = true;
-      startX = e.clientX - currentX;
-      startY = e.clientY - currentY;
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isPanning) return;
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      applyTransform();
-    });
-
-    window.addEventListener('mouseup', () => { isPanning = false; });
-
-    viewport.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      const rect = viewport.getBoundingClientRect();
-      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
-      zoomAround(e.clientX - rect.left, e.clientY - rect.top, scale * zoomFactor);
-      applyTransform();
-    }, { passive: false });
-
-    viewport.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1 && !e.target.closest('.node-group')) {
-        isPanning = true;
-        startX = e.touches[0].clientX - currentX;
-        startY = e.touches[0].clientY - currentY;
-      } else if (e.touches.length === 2) {
-        isPanning = false;
-        const rect = viewport.getBoundingClientRect();
-        const t0 = e.touches[0], t1 = e.touches[1];
-        initialPinchDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
-        initialPinchScale = scale;
-        const midX = (t0.clientX + t1.clientX) / 2 - rect.left;
-        const midY = (t0.clientY + t1.clientY) / 2 - rect.top;
-        pinchAnchorScreen = { x: midX, y: midY };
-        pinchAnchorScene = { x: (midX - currentX) / scale, y: (midY - currentY) / scale };
-      }
-    }, { passive: false });
-
-    viewport.addEventListener('touchmove', (e) => {
-      if (isPanning && e.touches.length === 1) {
-        currentX = e.touches[0].clientX - startX;
-        currentY = e.touches[0].clientY - startY;
-        applyTransform();
-      } else if (e.touches.length === 2 && initialPinchDist) {
-        e.preventDefault();
-        const dist = Math.hypot(
-          e.touches[0].clientX - e.touches[1].clientX,
-          e.touches[0].clientY - e.touches[1].clientY
-        );
-        const factor = dist / initialPinchDist;
-        const newScale = Math.min(Math.max(MIN_SCALE, initialPinchScale * factor), MAX_SCALE);
-        currentX = pinchAnchorScreen.x - pinchAnchorScene.x * newScale;
-        currentY = pinchAnchorScreen.y - pinchAnchorScene.y * newScale;
-        scale = newScale;
-        applyTransform();
-      }
-    }, { passive: false });
-
-    viewport.addEventListener('touchend', (e) => {
-      if (e.touches.length < 2) initialPinchDist = null;
-      if (e.touches.length === 0) isPanning = false;
-    });
-
-    window.addEventListener('resize', () => {
-      applyLangUI();
-    });
-
-    document.body.className = `${currentTheme}-mode`;
-    if (isMobileDevice()) {
-      document.getElementById('dashboard').classList.add('collapsed');
-      document.getElementById('collapseBtn').textContent = '▾';
-    }
-    applyLangUI();
-    renderDiagram();
-    if (isMobileDevice()) {
-      initialMobileView();
-    } else {
-      fitToScreen(false);
-    }
-  </script>
-</body>
-</html>
+      const gW = (b.maxX - b.minX) * scale;
+      const gH = (... (8 KB left)
