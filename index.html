@@ -12,7 +12,7 @@
     body.dark-mode {
       --bg-color: #080c14;
       --viewport-bg: radial-gradient(circle at center, #111827 0%, #080c14 100%);
-      --panel-bg: #0f172a; /* خلفية معتمة صلبة Opaque 100% */
+      --panel-bg: #0f172a;
       --card-bg: #1e293b;
       --border-color: #334155;
       --text-main: #f8fafc;
@@ -45,7 +45,7 @@
     body.light-mode {
       --bg-color: #f8fafc;
       --viewport-bg: radial-gradient(circle at center, #ffffff 0%, #e2e8f0 100%);
-      --panel-bg: #ffffff; /* خلفية معتمة صلبة Opaque 100% */
+      --panel-bg: #ffffff;
       --card-bg: #ffffff;
       --border-color: #cbd5e1;
       --text-main: #0f172a;
@@ -259,7 +259,7 @@
     }
 
     .node-text {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 600;
       text-anchor: middle;
       dominant-baseline: central;
@@ -498,7 +498,6 @@
   </div>
 
   <script>
-    // تم تصغير نصف قطر الدوائر والشبكة لجعل الكانفاس ملموماً ومريحاً
     const nodeRadius = 38;
     const ringRadius = 45;
 
@@ -564,7 +563,6 @@
     let currentLang = localStorage.getItem('se_study_lang') || 'ar';
     let currentTheme = localStorage.getItem('se_study_theme') || 'dark';
 
-    // توزيع مواد هندسة البرمجيات بأبعاد ملمومة ومضغوطة بنسبة 25%
     const nodes = [
       // الصف 1: الأساسيات (y: 130)
       { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال", name_en: "Arabic\nCommunication", cr: 3, x: 1100, y: 130, stroke: "#f43f5e" },
@@ -650,14 +648,13 @@
       { from: "proj1", to: "proj2", type: "dashed" }
     ];
 
-    let userState = JSON.parse(localStorage.getItem('se_study_graph_vCOMPACT') || '{}');
+    let userState = JSON.parse(localStorage.getItem('se_study_graph_vSPACED') || '{}');
     let activeCourseId = null;
 
     const scene = document.getElementById('scene');
     const nodesMap = {};
     nodes.forEach(n => nodesMap[n.id] = n);
 
-    // دالة المسار الشبكي المتعامد بالزوايا القائمة
     function generateOrthogonalPath(source, target, offset = 0) {
       const r = ringRadius;
       
@@ -839,8 +836,9 @@
 
         const nameText = currentLang === 'ar' ? n.name_ar : n.name_en;
         const lines = nameText.split('\n');
-        const lineHeight = 11;
-        const startY = n.y - ((lines.length) * lineHeight) / 2;
+        // زيادة التباعد الرأسي بين الأسطر لراحة العين
+        const lineHeight = 14.5;
+        const startY = n.y - ((lines.length - 1) * lineHeight) / 2 - 3;
 
         lines.forEach((txt, idx) => {
           const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
@@ -853,7 +851,7 @@
 
         const crEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         crEl.setAttribute("x", n.x);
-        crEl.setAttribute("y", n.y + 24);
+        crEl.setAttribute("y", n.y + 26);
         crEl.setAttribute("class", "node-credits");
         crEl.textContent = `${n.cr} ${t.crSuffix}`;
         g.appendChild(crEl);
@@ -916,7 +914,7 @@
       } else {
         userState[activeCourseId] = status;
       }
-      localStorage.setItem('se_study_graph_vCOMPACT', JSON.stringify(userState));
+      localStorage.setItem('se_study_graph_vSPACED', JSON.stringify(userState));
 
       const nodeEl = document.getElementById(`node-${activeCourseId}`);
       if (nodeEl) {
@@ -1014,7 +1012,7 @@
     function centerOn(targetX, targetY, targetScale, animate) {
       const vw = viewport.clientWidth, vh = viewport.clientHeight;
       const headerH = document.getElementById('dashboard').getBoundingClientRect().height;
-      const availTop = headerH + 20; // مسافة أمان رأسية واضحة تحت الـ Widget
+      const availTop = headerH + 20;
       const availH = Math.max(120, vh - availTop - 16);
       scale = Math.min(Math.max(MIN_SCALE, targetScale), MAX_SCALE);
       currentX = vw / 2 - targetX * scale;
