@@ -1110,4 +1110,214 @@
       const vw = viewport.clientWidth, vh = viewport.clientHeight;
       const headerH = document.getElementById('dashboard').getBoundingClientRect().height;
       const gW = (b.maxX - b.minX) * scale;
-      const gH = (... (8 KB left)
+      const gH = (b.maxY - b.minY) * scale;
+      const pad = 40;
+
+      let minX, maxX, minY, maxY;
+
+      if (gW > vw) {
+        minX = vw - pad - b.maxX * scale;
+        maxX = pad - b.minX * scale;
+      } else {
+        // Graph is smaller than viewport, keep it within the viewport bounds
+        minX = -b.minX * scale;
+        maxX = vw - gW - b.minX * scale;
+      }
+
+      if (gH > (vh - headerH)) {
+        minY = vh - pad - b.maxY * scale;
+        maxY = headerH + pad - b.minY * scale;
+      } else {
+        // Graph is smaller than available height, keep it within bounds
+        minY = headerH - b.minY * scale;
+        maxY = vh - gH - b.minY * scale;
+      }
+
+      currentX = Math.max(minX, Math.min(currentX, maxX));
+      currentY = Math.max(minY, Math.min(currentY, maxY));
+    }
+
+    function applyTransform() {
+      constrainPan();
+      scene.setAttribute("transform", `translate(${currentX}, ${currentY}) scale(${scale})`);
+    }
+
+    function animatedTransform() {
+      scene.style.transition = 'transform 0.32s cubic-bezier(0.22,1,0.36,1)';
+      applyTransform();
+      clearTimeout(fitTimeout);
+      fitTimeout = setTimeout(() => { scene.style.transition = ''; }, 340);
+    }
+
+    function getMinScale() {
+      const b = getGraphBounds();
+      const graphW = b.maxX - b.minX;
+      const graphH = b.maxY - b.minY;
+      const vw = viewport.clientWidth, vh = viewport.clientHeight;
+      const fitScale = Math.min(vw / graphW, vh / graphH);
+      return Math.max(0.35, fitScale * 0.9);
+    }
+
+    function zoomAround(screenX, screenY, newScale) {
+      newScale = Math.min(Math.max(getMinScale(), newScale), MAX_SCALE);
+      const sceneX = (screenX - currentX) / scale;
+      const sceneY = (screenY - currentY) / scale;
+      currentX = screenX - sceneX * newScale;
+      currentY = screenY - sceneY * newScale;
+      scale = newScale;
+    }
+
+    function zoomStep(dir) {
+      const vw = viewport.clientWidth, vh = viewport.clientHeight;
+      zoomAround(vw / 2, vh / 2, scale * (dir > 0 ? 1.25 : 0.8));
+      animatedTransform();
+    }
+
+    function getGraphBounds() {
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      nodes.forEach(n => {
+        minX = Math.min(minX, n.x - ringRadius - 6);
+        maxX = Math.max(maxX, n.x + ringRadius + 6);
+        minY = Math.min(minY, n.y - ringRadius - 16);
+        maxY = Math.max(maxY, n.y + ringRadius + 28);
+      });
+      return { minX, maxX, minY, maxY };
+    }
+
+    function centerOn(targetX, targetY, targetScale, animate) {
+      const vw = viewport.clientWidth, vh = viewport.clientHeight;
+      const headerH = document.getElementById('dashboard').getBoundingClientRect().height;
+      const availTop = headerH + 20;
+      const availH = Math.max(120, vh - availTop - 16);
+      scale = Math.min(Math.max(getMinScale(), targetScale), MAX_SCALE);
+      currentX = vw / 2 - targetX * scale;
+      currentY = availTop + availH / 2 - targetY * scale;
+      if (animate) animatedTransform(); else applyTransform();
+    }
+
+    function fitToScreen(animate) {
+      const b = getGraphBounds();
+      const graphW = b.maxX - b.minX;
+      const graphH = b.maxY - b.minY;
+      const vw = viewport.clientWidth, vh = viewport.clientHeight;
+      const headerH = document.getElementById('dashboard').getBoundingClientRect().height;
+      const pad = 24;
+      const availW = Math.max(100, vw - pad * 2);
+      const availH = Math.max(100, vh - headerH - pad * 2 - 16);
+      const fitScale = Math.min(availW / graphW, availH / graphH);
+      const midX = (b.minX + b.maxX) / 2;
+      const midY = (b.minY + b.maxY) / 2;
+      centerOn(midX, midY, fitScale, animate);
+    }
+
+    function mobileFocusScale() {
+      const vw = viewport.clientWidth;
+      return Math.min(1.05, Math.max(0.6, vw / 460));
+    }
+
+    function initialMobileView() {
+      const activeNodes = nodes.filter(n => userState[n.id] === 'current');
+      let tx, ty;
+      if (activeNodes.length) {
+        tx = activeNodes.reduce((s, n) => s + n.x, 0) / activeNodes.length;
+        ty = activeNodes.reduce((s, n) => s + n.y, 0) / activeNodes.length;
+      } else {
+        tx = 630; ty = 140;
+      }
+      centerOn(tx, ty, mobileFocusScale(), false);
+    }
+
+    function toggleCollapse() {
+      const dash = document.getElementById('dashboard');
+      dash.classList.toggle('collapsed');
+      document.getElementById('collapseBtn').textContent = dash.classList.contains('collapsed') ? '▾' : '▴';
+    }
+
+    const viewport = document.getElementById('viewport');
+
+    viewport.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.node-group') || e.button !== 0) return;
+      isPanning = true;
+      startX = e.clientX - currentX;
+      startY = e.clientY - currentY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isPanning) return;
+      currentX = e.clientX - startX;
+      currentY = e.clientY - startY;
+      applyTransform();
+    });
+
+    window.addEventListener('mouseup', () => { isPanning = false; });
+
+    viewport.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const rect = viewport.getBoundingClientRect();
+      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+      zoomAround(e.clientX - rect.left, e.clientY - rect.top, scale * zoomFactor);
+      applyTransform();
+    }, { passive: false });
+
+    viewport.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1 && !e.target.closest('.node-group')) {
+        isPanning = true;
+        startX = e.touches[0].clientX - currentX;
+        startY = e.touches[0].clientY - currentY;
+      } else if (e.touches.length === 2) {
+        isPanning = false;
+        const rect = viewport.getBoundingClientRect();
+        const t0 = e.touches[0], t1 = e.touches[1];
+        initialPinchDist = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+        initialPinchScale = scale;
+        const midX = (t0.clientX + t1.clientX) / 2 - rect.left;
+        const midY = (t0.clientY + t1.clientY) / 2 - rect.top;
+        pinchAnchorScreen = { x: midX, y: midY };
+        pinchAnchorScene = { x: (midX - currentX) / scale, y: (midY - currentY) / scale };
+      }
+    }, { passive: false });
+
+    viewport.addEventListener('touchmove', (e) => {
+      if (isPanning && e.touches.length === 1) {
+        currentX = e.touches[0].clientX - startX;
+        currentY = e.touches[0].clientY - startY;
+        applyTransform();
+      } else if (e.touches.length === 2 && initialPinchDist) {
+        e.preventDefault();
+        const dist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        const factor = dist / initialPinchDist;
+        const newScale = Math.min(Math.max(getMinScale(), initialPinchScale * factor), MAX_SCALE);
+        currentX = pinchAnchorScreen.x - pinchAnchorScene.x * newScale;
+        currentY = pinchAnchorScreen.y - pinchAnchorScene.y * newScale;
+        scale = newScale;
+        applyTransform();
+      }
+    }, { passive: false });
+
+    viewport.addEventListener('touchend', (e) => {
+      if (e.touches.length < 2) initialPinchDist = null;
+      if (e.touches.length === 0) isPanning = false;
+    });
+
+    window.addEventListener('resize', () => {
+      applyLangUI();
+    });
+
+    document.body.className = `${currentTheme}-mode`;
+    if (isMobileDevice()) {
+      document.getElementById('dashboard').classList.add('collapsed');
+      document.getElementById('collapseBtn').textContent = '▾';
+    }
+    applyLangUI();
+    renderDiagram();
+    if (isMobileDevice()) {
+      initialMobileView();
+    } else {
+      fitToScreen(false);
+    }
+  </script>
+</body>
+</html>
