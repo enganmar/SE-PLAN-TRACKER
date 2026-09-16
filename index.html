@@ -563,8 +563,7 @@
     let currentLang = localStorage.getItem('se_study_lang') || 'ar';
     let currentTheme = localStorage.getItem('se_study_theme') || 'dark';
 
-    // شبكة أعمدة هندسة البرمجيات الرسمية (خطة 2022 - 34 مادة فقط بدون أي مواد زائدة)
-    // الأعمدة الثمانية: C8:1190, C7:1050, C6:910, C5:770, C4:630, C3:490, C2:350, C1:210
+    // توزيع مواد هندسة البرمجيات الرسمية (خطة 2022 - 34 مادة فقط بدون أي مواد زائدة)
     const nodes = [
       // الصف 1 (y: 140)
       { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال\nوالتواصل", name_en: "Arabic\nCommunication", cr: 3, x: 1190, y: 140, stroke: "#8b5cf6" },
@@ -683,7 +682,7 @@
     const nodesMap = {};
     nodes.forEach(n => nodesMap[n.id] = n);
 
-    // خوارزمية التوجيه الشبكي المتعامد الدقيقة (Orthogonal Highway Routing)
+    // خوارزمية التوجيه الشبكي المتعامد الذكي (Orthogonal Highway Routing)
     function generateOrthogonalPath(source, target, offset = 0) {
       const r = ringRadius;
       
@@ -692,20 +691,13 @@
         return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 4}`;
       }
 
-      // 2. تحليل عددي → أمن البرمجيات:
-      // نخرج أولاً إلى الممر بين الأعمدة، ثم ننزل في فراغ لا توجد فيه مواد،
-      // وبعدها ندخل إلى أمن البرمجيات من الأعلى. هذا يمنع قطع الخوارزميات
-      // وتوثيق البرمجيات وأي عقد تقع على العمود x=910.
+      // 2. تحليل عددي → أمن البرمجيات: مسار معزول تماماً يمر من العمود x=840 (الفراغ بين الأعمدة)
       if (source.id === "num_anal" && target.id === "cyber_sec") {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
         const endY = target.y - r - 4;
-
-        // x=840 يقع بين عمودي 910 و770 ولا توجد عليه مادة قبل مشروع التخرج.
         const safeX = 840;
-
-        // ممر قصير أسفل المصدر، ثم نزول في العمود الآمن.
         const exitY = startY + 24;
         const enterY = endY - 24;
 
@@ -717,23 +709,22 @@
                 L ${endX} ${endY}`;
       }
 
-      // 3. مسار مقدمة تكنولوجيا المعلومات النازل إلى صفحات الويب (يمر من القناة اليسارية الخالية)
+      // 3. مقدمة IT → صفحة الويب: يخرج لأسفل ثم ينعطف يساراً في الفراغ
       if (source.id === "intro_it" && target.id === "intro_web") {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
         const endY = target.y - r - 4;
-        const channelY = source.y + 70; // يكسر في منتصف المسافة بين الصفين الأول والثاني
+        const channelY = source.y + 70;
         return `M ${startX} ${startY} L ${startX} ${channelY} L ${endX} ${channelY} L ${endX} ${endY}`;
       }
 
-      // 4. المواد المتتالية بين صف وصف يليه
+      // 4. المواد المتتالية بين صف وصف يليه مباشرة
       if (target.y > source.y && target.y - source.y <= 210) {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
         const endY = target.y - r - 4;
-        // الممر في منتصف المسافة العمودية الفارغة
         const channelY = source.y + (target.y - source.y) / 2 + offset;
 
         return `M ${startX} ${startY} 
