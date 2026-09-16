@@ -24,8 +24,10 @@
       --modal-bg: #1e293b;
       --btn-bg: #1e293b;
 
+      /* ألوان الخطوط في الوضع الليلي */
       --link-solid: #38bdf8;   /* أزرق سماوي لسابق النجاح */
       --link-dashed: #c084fc;  /* نهدي لسابق الدراسة */
+      --link-highlight: #facc15; /* أصفر نيون ذهبي ساطع جداً عند التحديد */
 
       --c-completed-bg: #064e3b;
       --c-completed-text: #ffffff;
@@ -60,8 +62,10 @@
       --modal-bg: #ffffff;
       --btn-bg: #f1f5f9;
 
+      /* ألوان الخطوط في الوضع النهاري */
       --link-solid: #0284c7;   /* أزرق لسابق النجاح */
       --link-dashed: #9333ea;  /* نهدي لسابق الدراسة */
+      --link-highlight: #d97706; /* عنبري برتقالي بارز عند التحديد */
 
       --c-completed-bg: #d1fae5;
       --c-completed-text: #065f46;
@@ -242,7 +246,7 @@
       stroke: var(--link-solid); 
       stroke-width: 3.2; 
       fill: none; 
-      transition: stroke 0.2s; 
+      transition: stroke 0.2s, stroke-width 0.2s; 
       stroke-linejoin: round; 
       stroke-linecap: round; 
     }
@@ -251,7 +255,7 @@
       stroke-width: 3; 
       stroke-dasharray: 6,6; 
       fill: none; 
-      transition: stroke 0.2s; 
+      transition: stroke 0.2s, stroke-width 0.2s; 
       stroke-linejoin: round; 
       stroke-linecap: round; 
     }
@@ -298,6 +302,42 @@
       text-anchor: middle;
       user-select: none;
       transition: fill 0.3s;
+    }
+
+    .link-label-bg {
+      fill: var(--panel-bg);
+      rx: 4px;
+      ry: 4px;
+      stroke: var(--border-color);
+      stroke-width: 1px;
+    }
+    .link-label-text {
+      font-size: 10px;
+      font-weight: 600;
+      fill: var(--link-dashed);
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+    /* تأثير التحديد والتوهج الفائق باللون الذهبي النيون */
+    #scene.dimmed > * {
+      opacity: 0.14;
+      transition: opacity 0.22s ease;
+    }
+    #scene.dimmed .highlighted-arrow-group,
+    #scene.dimmed .highlighted-node {
+      opacity: 1 !important;
+      transition: opacity 0.22s ease;
+    }
+    #scene.dimmed .highlighted-node .node-circle {
+      stroke: var(--link-highlight) !important;
+      stroke-width: 5.5px !important;
+      filter: drop-shadow(0 0 14px var(--link-highlight)) !important;
+    }
+    path.highlighted-arrow {
+      stroke: var(--link-highlight) !important;
+      stroke-width: 5.5px !important;
+      filter: drop-shadow(0 0 10px var(--link-highlight)) !important;
     }
 
     .status-completed .status-ring { stroke: #10b981; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #10b981); }
@@ -375,7 +415,7 @@
     .btn-term-2028 { background: rgba(6, 182, 212, 0.2); color: #06b6d4; border-color: #06b6d4; }
     .btn-reset { background: var(--btn-bg); color: var(--text-muted); }
 
-    /* نافذة تفاصيل كشف المواد المنجزة */
+    /* نافذة كشف المواد المنجزة */
     #auditModal {
       position: fixed;
       top: 50%;
@@ -571,8 +611,9 @@
         <marker id="arrow-dashed" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10" refY="8" orient="auto">
           <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--link-dashed)" />
         </marker>
+        <!-- رأس سهم ذهبي متوهج للتحديد -->
         <marker id="arrow-highlighted" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10" refY="8" orient="auto">
-          <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--accent)" />
+          <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--link-highlight)" />
         </marker>
       </defs>
       <g id="scene"></g>
@@ -590,7 +631,7 @@
     <button class="btn-status btn-reset" onclick="setCourseStatus('none')" id="btnMReset">⚪ غير محدد (متبقي)</button>
   </div>
 
-  <!-- نافذة كشف المواد المنجزة -->
+  <!-- نافذة كشف ومراجعة المواد المنجزة -->
   <div id="auditModal">
     <div class="audit-header">
       <h3 id="lblAuditTitle">📋 تفاصيل المواد المكتملة</h3>
@@ -764,7 +805,7 @@
       { from: "ds", to: "se_fund", type: "dashed" },                  
       { from: "ds", to: "db_fund", type: "dashed" },                  
 
-      // --- الصف 4 إلى 5 ---                            
+      // --- الصف 4 إلى 5 ---                          
       { from: "data_modeling", to: "se_req", type: "dashed" },
       { from: "se_fund", to: "sys_analysis", type: "dashed" },        
       { from: "se_fund", to: "sys_analysis", type: "dashed" },        
@@ -894,6 +935,33 @@
       renderDiagram();
     }
 
+    // إدارة التحديد والتوهج للخطوط
+    let activeHighlightedPath = null;
+
+    function highlightLink(gPath, path, source, target) {
+      document.getElementById('scene').classList.add('dimmed');
+      gPath.classList.add('highlighted-arrow-group');
+      path.classList.add('highlighted-arrow');
+      path.setAttribute("marker-end", "url(#arrow-highlighted)");
+      const srcNode = document.getElementById(`node-${source.id}`);
+      const tgtNode = document.getElementById(`node-${target.id}`);
+      if (srcNode) srcNode.classList.add('highlighted-node');
+      if (tgtNode) tgtNode.classList.add('highlighted-node');
+      activeHighlightedPath = gPath;
+    }
+
+    function clearAllHighlights() {
+      document.getElementById('scene').classList.remove('dimmed');
+      document.querySelectorAll('.highlighted-arrow-group').forEach(el => el.classList.remove('highlighted-arrow-group'));
+      document.querySelectorAll('.highlighted-arrow').forEach(el => {
+        el.classList.remove('highlighted-arrow');
+        const isDashed = el.classList.contains('link-dashed');
+        el.setAttribute("marker-end", isDashed ? 'url(#arrow-dashed)' : 'url(#arrow-solid)');
+      });
+      document.querySelectorAll('.highlighted-node').forEach(el => el.classList.remove('highlighted-node'));
+      activeHighlightedPath = null;
+    }
+
     function renderDiagram() {
       scene.innerHTML = '';
       const defs = document.querySelector('defs');
@@ -904,8 +972,9 @@
         <marker id="arrow-dashed" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10" refY="8" orient="auto">
           <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--link-dashed)" />
         </marker>
-        <marker id="arrow-highlighted" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10" refY="8" orient="auto">
-          <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--accent)" />
+        <!-- رأس سهم ذهبي متوهج وواضح جداً -->
+        <marker id="arrow-highlighted" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" refX="11" refY="9" orient="auto">
+          <path d="M 0 0 L 16 9 L 0 18 Z" fill="var(--link-highlight)" />
         </marker>
       `;
 
@@ -929,10 +998,11 @@
         }
         path.setAttribute("marker-end", l.type === 'dashed' ? 'url(#arrow-dashed)' : 'url(#arrow-solid)');
 
+        // مسار شفاف عريض (30px) لسهولة النقر بالإصبع أو الماوس
         const hitPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
         hitPath.setAttribute("d", d);
         hitPath.setAttribute("stroke", "transparent");
-        hitPath.setAttribute("stroke-width", "25");
+        hitPath.setAttribute("stroke-width", "30");
         hitPath.setAttribute("fill", "none");
         hitPath.style.cursor = 'pointer';
         hitPath.style.pointerEvents = 'stroke';
@@ -940,27 +1010,26 @@
         gPath.appendChild(path);
         gPath.appendChild(hitPath);
 
+        // التمرير بالماوس على الكمبيوتر
         gPath.addEventListener('mouseenter', () => {
           if (isMobileDevice()) return;
-          document.getElementById('scene').classList.add('dimmed');
-          gPath.classList.add('highlighted-arrow-group');
-          path.classList.add('highlighted-arrow');
-          path.setAttribute("marker-end", "url(#arrow-highlighted)");
-          const srcNode = document.getElementById(`node-${source.id}`);
-          const tgtNode = document.getElementById(`node-${target.id}`);
-          if (srcNode) srcNode.classList.add('highlighted-node');
-          if (tgtNode) tgtNode.classList.add('highlighted-node');
+          highlightLink(gPath, path, source, target);
         });
+
         gPath.addEventListener('mouseleave', () => {
           if (isMobileDevice()) return;
-          document.getElementById('scene').classList.remove('dimmed');
-          gPath.classList.remove('highlighted-arrow-group');
-          path.classList.remove('highlighted-arrow');
-          path.setAttribute("marker-end", l.type === 'dashed' ? 'url(#arrow-dashed)' : 'url(#arrow-solid)');
-          const srcNode = document.getElementById(`node-${source.id}`);
-          const tgtNode = document.getElementById(`node-${target.id}`);
-          if (srcNode) srcNode.classList.remove('highlighted-node');
-          if (tgtNode) tgtNode.classList.remove('highlighted-node');
+          clearAllHighlights();
+        });
+
+        // النقر على الخط (للهواتف واللابتوب للتثبيت)
+        hitPath.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (activeHighlightedPath === gPath) {
+            clearAllHighlights();
+          } else {
+            clearAllHighlights();
+            highlightLink(gPath, path, source, target);
+          }
         });
 
         scene.appendChild(gPath);
@@ -1109,7 +1178,6 @@
       modal.style.display = 'none';
     }
 
-    // نافذة كشف ومراجعة المواد المكتملة
     const auditModal = document.getElementById('auditModal');
     function openAuditModal() {
       const listEl = document.getElementById('auditList');
@@ -1168,10 +1236,14 @@
       }
     }
 
+    // النقر على الفراغ يلغي التظليل والقوائم
     window.onclick = function(e) {
       if (!e.target.closest('#actionModal') && !e.target.closest('#auditModal') && !e.target.closest('#auditBtn')) {
         hideModal();
         closeAuditModal();
+      }
+      if (!e.target.closest('.highlighted-arrow-group')) {
+        clearAllHighlights();
       }
     };
 
@@ -1179,6 +1251,9 @@
       if (!e.target.closest('#actionModal') && !e.target.closest('#auditModal') && !e.target.closest('#auditBtn') && !e.target.closest('.node-group')) {
         hideModal();
         closeAuditModal();
+      }
+      if (!e.target.closest('.highlighted-arrow-group')) {
+        clearAllHighlights();
       }
     }, { passive: true });
 
