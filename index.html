@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>خطة هندسة البرمجيات | SE Plan Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   
   <style>
@@ -259,7 +259,7 @@
     }
 
     .node-text {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 600;
       text-anchor: middle;
       dominant-baseline: central;
@@ -563,74 +563,72 @@
     let currentLang = localStorage.getItem('se_study_lang') || 'ar';
     let currentTheme = localStorage.getItem('se_study_theme') || 'dark';
 
-    // توزيع مواد هندسة البرمجيات الحقيقية مطابق للبوستر مع مسافات متباعدة تمنع التداخل
+    // شبكة أعمدة هندسة البرمجيات الرسمية (خطة 2022 - 34 مادة فقط بدون أي مواد زائدة)
+    // الأعمدة الثمانية: C8:1190, C7:1050, C6:910, C5:770, C4:630, C3:490, C2:350, C1:210
     const nodes = [
       // الصف 1 (y: 140)
-      { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال\nوالتواصل", name_en: "Arabic\nCommunication", cr: 3, x: 1320, y: 140, stroke: "#f43f5e" },
-      { id: "eng1", name_ar: "اللغة الإنجليزية\nومهارات الاتصال", name_en: "English\nCommunication", cr: 3, x: 1170, y: 140, stroke: "#f43f5e" },
-      { id: "calc2", name_ar: "تفاضل\nوتكامل 2", name_en: "Calculus 2", cr: 3, x: 1020, y: 140, stroke: "#f472b6" },
-      { id: "calc1", name_ar: "تفاضل\nوتكامل 1", name_en: "Calculus 1", cr: 3, x: 870, y: 140, stroke: "#f472b6" },
-      { id: "prog1", name_ar: "مقدمة\nفي البرمجة", name_en: "Intro to\nProgramming", cr: 3, x: 710, y: 140, stroke: "#f59e0b" },
-      { id: "intro_it", name_ar: "مقدمة إلى\nتكنولوجيا\nالمعلومات", name_en: "Intro to\nIT", cr: 3, x: 550, y: 140, stroke: "#b91c1c" },
-      { id: "phys2", name_ar: "فيزياء 2", name_en: "Physics 2", cr: 3, x: 410, y: 140, stroke: "#a855f7" },
-      { id: "phys_lab", name_ar: "فيزياء عامة\nعملي", name_en: "Physics\nLab", cr: 1, x: 270, y: 140, stroke: "#a855f7" },
-      { id: "leadership", name_ar: "القيادة\nوالمسؤولية", name_en: "Leadership &\nResponsibility", cr: 2, x: 130, y: 140, stroke: "#f43f5e" },
+      { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال\nوالتواصل", name_en: "Arabic\nCommunication", cr: 3, x: 1190, y: 140, stroke: "#8b5cf6" },
+      { id: "eng1", name_ar: "اللغة\nالإنجليزية\nومهارات الاتصال", name_en: "English\nCommunication", cr: 3, x: 1050, y: 140, stroke: "#8b5cf6" },
+      { id: "calc2", name_ar: "تفاضل\nوتكامل 2", name_en: "Calculus 2", cr: 3, x: 910, y: 140, stroke: "#f472b6" },
+      { id: "calc1", name_ar: "تفاضل\nوتكامل 1", name_en: "Calculus 1", cr: 3, x: 770, y: 140, stroke: "#f472b6" },
+      { id: "prog1", name_ar: "مقدمة\nفي البرمجة", name_en: "Intro to\nProgramming", cr: 3, x: 630, y: 140, stroke: "#f59e0b" },
+      { id: "intro_it", name_ar: "مقدمة إلى\nتكنولوجيا\nالمعلومات", name_en: "Intro to\nIT", cr: 3, x: 490, y: 140, stroke: "#b91c1c" },
+      { id: "uni_elec1", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (1)", cr: 3, x: 350, y: 140, stroke: "#64748b" },
+      { id: "life_skills", name_ar: "المهارات\nالحياتية", name_en: "Life\nSkills", cr: 2, x: 210, y: 140, stroke: "#8b5cf6" },
 
       // الصف 2 (y: 330)
-      { id: "uni_elec1", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (1)", cr: 3, x: 1320, y: 330, stroke: "#64748b" },
-      { id: "prob", name_ar: "إحصاء\nواحتمالات", name_en: "Probability &\nStatistics", cr: 3, x: 1170, y: 330, stroke: "#f472b6" },
-      { id: "linear_alg", name_ar: "مبادئ\nالجبر الخطي", name_en: "Linear\nAlgebra", cr: 3, x: 1030, y: 330, stroke: "#38bdf8" },
-      { id: "num_anal", name_ar: "تحليل\nعددي", name_en: "Numerical\nAnalysis", cr: 3, x: 890, y: 330, stroke: "#f472b6" }, // وسعنا المسافة
-      { id: "mil_sci", name_ar: "العلوم\nالعسكرية", name_en: "Military\nSciences", cr: 3, x: 740, y: 330, stroke: "#f43f5e" },
-      { id: "oop", name_ar: "مقدمة في\nالبرمجة\nالكينونية", name_en: "Intro to\nOOP", cr: 3, x: 600, y: 330, stroke: "#b91c1c" },
-      { id: "comm_ethics", name_ar: "مهارات\nالاتصال\nوأخلاقيات المهنة", name_en: "Ethics & Comm.\nSkills", cr: 2, x: 450, y: 330, stroke: "#0284c7" },
-      { id: "entrep", name_ar: "الريادة\nوالابتكار", name_en: "Entrepreneurship\n& Innovation", cr: 2, x: 290, y: 330, stroke: "#f43f5e" },
-      { id: "life_skills", name_ar: "المهارات\nالحياتية", name_en: "Life\nSkills", cr: 2, x: 130, y: 330, stroke: "#f43f5e" },
+      { id: "uni_elec2", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (2)", cr: 3, x: 1190, y: 330, stroke: "#64748b" },
+      { id: "prob", name_ar: "إحصاء\nواحتمالات", name_en: "Probability &\nStatistics", cr: 3, x: 1050, y: 330, stroke: "#f472b6" },
+      { id: "num_anal", name_ar: "تحليل\nعددي", name_en: "Numerical\nAnalysis", cr: 3, x: 910, y: 330, stroke: "#f472b6" },
+      { id: "leadership", name_ar: "القيادة\nوالمسؤولية\nالمجتمعية", name_en: "Leadership &\nResponsibility", cr: 2, x: 770, y: 330, stroke: "#8b5cf6" },
+      { id: "oop", name_ar: "مقدمة في\nالبرمجة\nالكينونية", name_en: "Intro to\nOOP", cr: 3, x: 630, y: 330, stroke: "#b91c1c" },
+      { id: "comm_ethics", name_ar: "مهارات\nالاتصال\nوأخلاقيات المهنة", name_en: "Ethics & Comm.\nSkills", cr: 2, x: 490, y: 330, stroke: "#8b5cf6" },
+      { id: "entrep", name_ar: "الريادة\nوالابتكار", name_en: "Entrepreneurship\n& Innovation", cr: 2, x: 350, y: 330, stroke: "#8b5cf6" },
 
       // الصف 3 (y: 520)
-      { id: "uni_elec2", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (2)", cr: 3, x: 1320, y: 520, stroke: "#64748b" },
-      { id: "mil_sci_opt", name_ar: "علوم عسكرية", name_en: "Military\nSciences", cr: 3, x: 1170, y: 520, stroke: "#f43f5e" },
-      { id: "discrete", name_ar: "رياضيات\nمتقطعة", name_en: "Discrete\nMath", cr: 3, x: 1020, y: 520, stroke: "#38bdf8" },
-      { id: "ds", name_ar: "تراكيب\nالبيانات", name_en: "Data\nStructures", cr: 3, x: 870, y: 520, stroke: "#f59e0b" },
-      { id: "oop_java", name_ar: "البرمجة\nبلغة جافا", name_en: "Java\nProgramming", cr: 3, x: 710, y: 520, stroke: "#b91c1c" },
-      { id: "dig_logic", name_ar: "تصميم\nالمنطق\nالرقمي", name_en: "Digital Logic\nDesign", cr: 3, x: 550, y: 520, stroke: "#a3e635" },
-      { id: "data_modeling", name_ar: "نمذجة\nالبيانات", name_en: "Data\nModeling", cr: 3, x: 410, y: 520, stroke: "#b91c1c" },
-      { id: "intro_web", name_ar: "مقدمة في\nصفحات الويب", name_en: "Intro to Web\nPages", cr: 3, x: 260, y: 520, stroke: "#0284c7" },
+      { id: "uni_elec3", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (3)", cr: 3, x: 1190, y: 520, stroke: "#64748b" },
+      { id: "mil_sci", name_ar: "علوم عسكرية", name_en: "Military\nSciences", cr: 3, x: 1050, y: 520, stroke: "#8b5cf6" },
+      { id: "discrete", name_ar: "رياضيات\nمتقطعة", name_en: "Discrete\nMath", cr: 3, x: 910, y: 520, stroke: "#f472b6" },
+      { id: "ds", name_ar: "تراكيب\nالبيانات", name_en: "Data\nStructures", cr: 3, x: 770, y: 520, stroke: "#f59e0b" },
+      { id: "oop_java", name_ar: "البرمجة\nبلغة جافا", name_en: "Java\nProgramming", cr: 3, x: 630, y: 520, stroke: "#b91c1c" },
+      { id: "dig_logic", name_ar: "تصميم\nالمنطق\nالرقمي", name_en: "Digital Logic\nDesign", cr: 3, x: 490, y: 520, stroke: "#a3e635" },
+      { id: "data_modeling", name_ar: "نمذجة\nالبيانات", name_en: "Data\nModeling", cr: 3, x: 350, y: 520, stroke: "#b91c1c" },
+      { id: "intro_web", name_ar: "مقدمة في\nصفحات الويب", name_en: "Intro to Web\nPages", cr: 3, x: 210, y: 520, stroke: "#0284c7" },
 
       // الصف 4 (y: 710)
-      { id: "db_fund", name_ar: "أساسيات\nقواعد\nالبيانات", name_en: "Database\nFundamentals", cr: 3, x: 1250, y: 710, stroke: "#0284c7" },
-      { id: "se_fund", name_ar: "أساسيات\nهندسة\nالبرمجيات", name_en: "Software Eng.\nFundamentals", cr: 3, x: 1090, y: 710, stroke: "#b91c1c" },
-      { id: "algo", name_ar: "تحليل\nوتصميم\nالخوارزميات", name_en: "Algorithms\nAnalysis & Design", cr: 3, x: 940, y: 710, stroke: "#f59e0b" },
-      { id: "visual_prog", name_ar: "البرمجة\nالمرئية", name_en: "Visual\nProgramming", cr: 3, x: 790, y: 710, stroke: "#b91c1c" },
+      { id: "db_fund", name_ar: "أساسيات\nقواعد\nالبيانات", name_en: "Database\nFundamentals", cr: 3, x: 1190, y: 710, stroke: "#0284c7" },
+      { id: "se_fund", name_ar: "أساسيات\nهندسة\nالبرمجيات", name_en: "Software Eng.\nFundamentals", cr: 3, x: 1050, y: 710, stroke: "#b91c1c" },
+      { id: "algo", name_ar: "تحليل\nوتصميم\nالخوارزميات", name_en: "Algorithms\nAnalysis & Design", cr: 3, x: 910, y: 710, stroke: "#f59e0b" },
+      { id: "visual_prog", name_ar: "البرمجة\nالمرئية", name_en: "Visual\nProgramming", cr: 3, x: 770, y: 710, stroke: "#b91c1c" },
       { id: "biz_data_comm", name_ar: "تراسل\nبيانات\nالأعمال", name_en: "Business Data\nCommunications", cr: 3, x: 630, y: 710, stroke: "#0284c7" },
-      { id: "dept_elec1", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(1)", cr: 3, x: 470, y: 710, stroke: "#b91c1c" },
-      { id: "web_dev", name_ar: "تطوير\nتطبيقات\nالويب", name_en: "Web App\nDevelopment", cr: 3, x: 330, y: 710, stroke: "#0284c7" },
+      { id: "dept_elec1", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(1)", cr: 3, x: 490, y: 710, stroke: "#b91c1c" },
+      { id: "web_dev", name_ar: "تطوير\nتطبيقات\nالويب", name_en: "Web App\nDevelopment", cr: 3, x: 350, y: 710, stroke: "#0284c7" },
 
       // الصف 5 (y: 900)
-      { id: "se_req", name_ar: "هندسة\nمتطلبات\nالبرمجيات", name_en: "Software Req.\nEngineering", cr: 3, x: 1320, y: 900, stroke: "#b91c1c" },
-      { id: "sys_analysis", name_ar: "تحليل\nوتصميم\nالأنظمة", name_en: "Systems Analysis\n& Design", cr: 3, x: 1170, y: 900, stroke: "#b91c1c" },
-      { id: "sw_doc", name_ar: "توثيق\nالبرمجيات", name_en: "Software\nDocumentation", cr: 3, x: 1020, y: 900, stroke: "#b91c1c" },
-      { id: "os", name_ar: "مبادئ نظم\nالتشغيل", name_en: "Operating\nSystems", cr: 3, x: 860, y: 900, stroke: "#f59e0b" },
-      { id: "se_lab", name_ar: "مختبر\nهندسة\nالبرمجيات", name_en: "Software Eng.\nLab", cr: 1, x: 710, y: 900, stroke: "#b91c1c" },
-      { id: "hci", name_ar: "تفاعل\nالإنسان\nوالحاسوب", name_en: "HCI", cr: 3, x: 560, y: 900, stroke: "#f59e0b" },
-      { id: "server_prog", name_ar: "برمجة\nالخادم -\nالمستفيد", name_en: "Client-Server\nProgramming", cr: 3, x: 400, y: 900, stroke: "#b91c1c" },
-      { id: "web_eng", name_ar: "هندسة\nتطبيقات\nالويب", name_en: "Web App\nEngineering", cr: 3, x: 250, y: 900, stroke: "#b91c1c" },
+      { id: "se_req", name_ar: "هندسة\nمتطلبات\nالبرمجيات", name_en: "Software Req.\nEngineering", cr: 3, x: 1190, y: 900, stroke: "#b91c1c" },
+      { id: "sys_analysis", name_ar: "تحليل\nوتصميم\nالأنظمة", name_en: "Systems Analysis\n& Design", cr: 3, x: 1050, y: 900, stroke: "#b91c1c" },
+      { id: "sw_doc", name_ar: "توثيق\nالبرمجيات", name_en: "Software\nDocumentation", cr: 3, x: 910, y: 900, stroke: "#b91c1c" },
+      { id: "os", name_ar: "مبادئ نظم\nالتشغيل", name_en: "Operating\nSystems", cr: 3, x: 770, y: 900, stroke: "#f59e0b" },
+      { id: "se_lab", name_ar: "مختبر\nهندسة\nالبرمجيات", name_en: "Software Eng.\nLab", cr: 1, x: 630, y: 900, stroke: "#b91c1c" },
+      { id: "hci", name_ar: "تفاعل\nالإنسان\nوالحاسوب", name_en: "HCI", cr: 3, x: 490, y: 900, stroke: "#f59e0b" },
+      { id: "server_prog", name_ar: "برمجة\nالخادم -\nالمستفيد", name_en: "Client-Server\nProgramming", cr: 3, x: 350, y: 900, stroke: "#b91c1c" },
+      { id: "web_eng", name_ar: "هندسة\nتطبيقات\nالويب", name_en: "Web App\nEngineering", cr: 3, x: 210, y: 900, stroke: "#b91c1c" },
 
       // الصف 6 (y: 1090)
-      { id: "se_testing", name_ar: "فحص\nالبرمجيات", name_en: "Software\nTesting", cr: 3, x: 1250, y: 1090, stroke: "#b91c1c" },
-      { id: "proj_mgmt", name_ar: "إدارة\nالمشاريع", name_en: "Project\nManagement", cr: 3, x: 1090, y: 1090, stroke: "#b91c1c" },
-      { id: "se_arch", name_ar: "معمارية\nوتصميم\nالبرمجيات", name_en: "Software Arch.\n& Design", cr: 3, x: 940, y: 1090, stroke: "#b91c1c" },
-      { id: "cyber_sec", name_ar: "أمن\nالبرمجيات", name_en: "Software\nSecurity", cr: 3, x: 790, y: 1090, stroke: "#10b981" },
+      { id: "se_testing", name_ar: "فحص\nالبرمجيات", name_en: "Software\nTesting", cr: 3, x: 1190, y: 1090, stroke: "#b91c1c" },
+      { id: "proj_mgmt", name_ar: "إدارة\nالمشاريع", name_en: "Project\nManagement", cr: 3, x: 1050, y: 1090, stroke: "#b91c1c" },
+      { id: "se_arch", name_ar: "معمارية\nوتصميم\nالبرمجيات", name_en: "Software Arch.\n& Design", cr: 3, x: 910, y: 1090, stroke: "#b91c1c" },
+      { id: "cyber_sec", name_ar: "أمن\nالبرمجيات", name_en: "Software\nSecurity", cr: 3, x: 770, y: 1090, stroke: "#10b981" },
       { id: "dept_elec2", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(2)", cr: 3, x: 630, y: 1090, stroke: "#b91c1c" },
-      { id: "dept_elec3", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(3)", cr: 3, x: 470, y: 1090, stroke: "#b91c1c" },
-      { id: "training", name_ar: "تدريب\nميداني", name_en: "Field\nTraining", cr: 3, x: 320, y: 1090, stroke: "#b91c1c" },
+      { id: "dept_elec3", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(3)", cr: 3, x: 490, y: 1090, stroke: "#b91c1c" },
+      { id: "training", name_ar: "تدريب\nميداني", name_en: "Field\nTraining", cr: 3, x: 350, y: 1090, stroke: "#b91c1c" },
 
       // الصف 7 (y: 1270)
-      { id: "proj1", name_ar: "مشروع تخرج\n1", name_en: "Graduation Proj\n(1)", cr: 1, x: 880, y: 1270, stroke: "#b91c1c" },
-      { id: "proj2", name_ar: "مشروع تخرج\n2", name_en: "Graduation Proj\n(2)", cr: 2, x: 710, y: 1270, stroke: "#b91c1c" }
+      { id: "proj1", name_ar: "مشروع تخرج\n1", name_en: "Graduation Proj\n(1)", cr: 1, x: 840, y: 1270, stroke: "#b91c1c" },
+      { id: "proj2", name_ar: "مشروع تخرج\n2", name_en: "Graduation Proj\n(2)", cr: 2, x: 700, y: 1270, stroke: "#b91c1c" }
     ];
 
-    // روابط الأسهم المطابقة تماماً للمسارات في البوستر
+    // روابط الأسهم المطابقة بدقة 100% للبوستر
     const links = [
       // الصف 1
       { from: "calc1", to: "calc2", type: "solid" },
@@ -678,41 +676,40 @@
       { from: "proj1", to: "proj2", type: "dashed" }
     ];
 
-    let userState = JSON.parse(localStorage.getItem('se_study_graph_vPOSTER_CORRECTED') || '{}');
+    let userState = JSON.parse(localStorage.getItem('se_clean_plan_v2022') || '{}');
     let activeCourseId = null;
 
     const scene = document.getElementById('scene');
     const nodesMap = {};
     nodes.forEach(n => nodesMap[n.id] = n);
 
-    // دالة المسار الشبكي المتعامد الذكي والمصححة هندسياً
+    // خوارزمية التوجيه الشبكي المتعامد الدقيقة (Orthogonal Highway Routing)
     function generateOrthogonalPath(source, target, offset = 0) {
       const r = ringRadius;
       
-      // 1. معالجة خط التحليل العددي النازل إلى أمن البرمجيات (يهبط في ممر عمودي نظيف)
+      // 1. مسار عمودي مباشر ونظيف إذا كانت المادتان على نفس المحور الرأسي X
+      if (Math.abs(source.x - target.x) < 8 && target.y > source.y) {
+        return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 4}`;
+      }
+
+      // 2. مسار التحليل العددي النازل إلى أمن البرمجيات (يهبط رأسياً في مساره الخاص دون قطع الدوائر)
       if (source.id === "num_anal" && target.id === "cyber_sec") {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
         const endY = target.y - r - 4;
-        // يهبط رأسياً في الفراغ خلف الصفوف حتى يصل لارتفاع صف أمن البرمجيات ثم يكسر
-        const detourY = nodesMap["cyber_sec"].y - 75;
-        return `M ${startX} ${startY} L ${startX} ${detourY} L ${endX} ${detourY} L ${endX} ${endY}`;
+        const channelY = nodesMap["cyber_sec"].y - 75; // يكسر في الممر الفارغ فوق صف أمن البرمجيات
+        return `M ${startX} ${startY} L ${startX} ${channelY} L ${endX} ${channelY} L ${endX} ${endY}`;
       }
 
-      // 2. معالجة خط مقدمة IT النازل إلى صفحات الويب (ينزل رأسياً من اليسار لتفادي مهارات الاتصال)
+      // 3. مسار مقدمة تكنولوجيا المعلومات النازل إلى صفحات الويب (يمر من القناة اليسارية الخالية)
       if (source.id === "intro_it" && target.id === "intro_web") {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
         const endY = target.y - r - 4;
-        const channelY = nodesMap["intro_it"].y + 70;
+        const channelY = source.y + 70; // يكسر في منتصف المسافة بين الصفين الأول والثاني
         return `M ${startX} ${startY} L ${startX} ${channelY} L ${endX} ${channelY} L ${endX} ${endY}`;
-      }
-
-      // 3. إذا كانت المادتان تحت بعضهما رأسياً مباشرة
-      if (Math.abs(source.x - target.x) < 8 && target.y > source.y) {
-        return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 4}`;
       }
 
       // 4. المواد المتتالية بين صف وصف يليه
@@ -721,6 +718,7 @@
         const startY = source.y + r;
         const endX = target.x;
         const endY = target.y - r - 4;
+        // الممر في منتصف المسافة العمودية الفارغة
         const channelY = source.y + (target.y - source.y) / 2 + offset;
 
         return `M ${startX} ${startY} 
@@ -737,7 +735,7 @@
         return `M ${startX} ${source.y} L ${endX} ${target.y}`;
       }
 
-      // 6. الحالات العامة للمسافات البعيدة
+      // 6. الحالات البعيدة الأخرى
       const startX = source.x;
       const startY = source.y + r;
       const endX = target.x;
@@ -969,7 +967,7 @@
       } else {
         userState[activeCourseId] = status;
       }
-      localStorage.setItem('se_study_graph_vPOSTER_CORRECTED', JSON.stringify(userState));
+      localStorage.setItem('se_clean_plan_v2022', JSON.stringify(userState));
 
       const nodeEl = document.getElementById(`node-${activeCourseId}`);
       if (nodeEl) {
@@ -1102,7 +1100,7 @@
         tx = activeNodes.reduce((s, n) => s + n.x, 0) / activeNodes.length;
         ty = activeNodes.reduce((s, n) => s + n.y, 0) / activeNodes.length;
       } else {
-        tx = 710; ty = 140;
+        tx = 630; ty = 140;
       }
       centerOn(tx, ty, mobileFocusScale(), false);
     }
