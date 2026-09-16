@@ -563,7 +563,6 @@
     let currentLang = localStorage.getItem('se_study_lang') || 'ar';
     let currentTheme = localStorage.getItem('se_study_theme') || 'dark';
 
-    // توزيع مواد هندسة البرمجيات الرسمية (خطة 2022 - 34 مادة فقط بدون أي مواد زائدة)
     const nodes = [
       // الصف 1 (y: 140)
       { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال\nوالتواصل", name_en: "Arabic\nCommunication", cr: 3, x: 1190, y: 140, stroke: "#8b5cf6" },
@@ -627,11 +626,11 @@
       { id: "proj2", name_ar: "مشروع تخرج\n2", name_en: "Graduation Proj\n(2)", cr: 2, x: 700, y: 1270, stroke: "#b91c1c" }
     ];
 
-    // روابط الأسهم المطابقة بدقة 100% للبوستر
+    // روابط الأسهم المطابقة بدقة للبوستر (تمت إزالة أي أسهم وهمية من تكنولوجيا المعلومات)
     const links = [
       // الصف 1
       { from: "calc1", to: "calc2", type: "solid" },
-      { from: "intro_it", to: "prog1", type: "dashed" },
+      { from: "intro_it", to: "prog1", type: "dashed" }, // الحاسوب الاستدراكي
 
       // الصف 1 -> 2
       { from: "calc2", to: "prob", type: "dashed" },
@@ -675,23 +674,23 @@
       { from: "proj1", to: "proj2", type: "dashed" }
     ];
 
-    let userState = JSON.parse(localStorage.getItem('se_clean_plan_v2022') || '{}');
+    let userState = JSON.parse(localStorage.getItem('se_clean_plan_v2022_final') || '{}');
     let activeCourseId = null;
 
     const scene = document.getElementById('scene');
     const nodesMap = {};
     nodes.forEach(n => nodesMap[n.id] = n);
 
-    // خوارزمية التوجيه الشبكي المتعامد الذكي (Orthogonal Highway Routing)
+    // خوارزمية التوجيه الشبكي المتعامد المحسنة (منع تقاطع أي خط مع المواد)
     function generateOrthogonalPath(source, target, offset = 0) {
       const r = ringRadius;
       
-      // 1. مسار عمودي مباشر ونظيف إذا كانت المادتان على نفس المحور الرأسي X
+      // مسار عمودي مباشر إذا كانت المادتان على نفس المحور الرأسي تماماً
       if (Math.abs(source.x - target.x) < 8 && target.y > source.y) {
         return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 4}`;
       }
 
-      // 2. تحليل عددي → أمن البرمجيات: مسار معزول تماماً يمر من العمود x=840 (الفراغ بين الأعمدة)
+      // مسار التحليل العددي إلى أمن البرمجيات (معزول في الفراغ الجانبي)
       if (source.id === "num_anal" && target.id === "cyber_sec") {
         const startX = source.x;
         const startY = source.y + r;
@@ -709,17 +708,7 @@
                 L ${endX} ${endY}`;
       }
 
-      // 3. مقدمة IT → صفحة الويب: يخرج لأسفل ثم ينعطف يساراً في الفراغ
-      if (source.id === "intro_it" && target.id === "intro_web") {
-        const startX = source.x;
-        const startY = source.y + r;
-        const endX = target.x;
-        const endY = target.y - r - 4;
-        const channelY = source.y + 70;
-        return `M ${startX} ${startY} L ${startX} ${channelY} L ${endX} ${channelY} L ${endX} ${endY}`;
-      }
-
-      // 4. المواد المتتالية بين صف وصف يليه مباشرة
+      // المسارات العادية بين الصفوف المتتالية
       if (target.y > source.y && target.y - source.y <= 210) {
         const startX = source.x;
         const startY = source.y + r;
@@ -733,7 +722,7 @@
                 L ${endX} ${endY}`;
       }
 
-      // 5. المواد في نفس الصف أفقياً
+      // المسارات الأفقية
       if (Math.abs(source.y - target.y) <= 30) {
         const isLeft = target.x < source.x;
         const startX = source.x + (isLeft ? -r : r);
@@ -741,7 +730,7 @@
         return `M ${startX} ${source.y} L ${endX} ${target.y}`;
       }
 
-      // 6. الحالات البعيدة الأخرى
+      // الحالات الأخرى
       const startX = source.x;
       const startY = source.y + r;
       const endX = target.x;
@@ -973,7 +962,7 @@
       } else {
         userState[activeCourseId] = status;
       }
-      localStorage.setItem('se_clean_plan_v2022', JSON.stringify(userState));
+      localStorage.setItem('se_clean_plan_v2022_final', JSON.stringify(userState));
 
       const nodeEl = document.getElementById(`node-${activeCourseId}`);
       if (nodeEl) {
