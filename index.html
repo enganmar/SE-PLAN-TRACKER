@@ -655,50 +655,61 @@
 
     // روابط الأسهم المطابقة بدقة للبوستر (تمت إزالة أي أسهم وهمية من تكنولوجيا المعلومات)
     const links = [
-      // الصف 1
-      { from: "calc1", to: "calc2", type: "solid" },
-      { from: "prog1", to: "intro_it", type: "dashed" }, // الحاسوب الاستدراكي
+  // --- الصف 1 ---
+  { from: "calc1", to: "calc2", type: "solid" },                 
+  { from: "calc1", to: "prog1", type: "dashed" },         
+  { from: "intro_it", to: "prog1", type: "dashed" },             
 
-      // الصف 1 -> 2
-      { from: "calc2", to: "prob", type: "dashed" },
-      { from: "calc2", to: "num_anal", type: "dashed" },
-      { from: "prog1", to: "oop", type: "solid" },
+  // --- الصف 1 إلى 2 ---
+  { from: "calc2", to: "prob", type: "dashed" },                  
+  { from: "calc2", to: "num_anal", type: "dashed" },              
+  { from: "prog1", to: "oop", type: "solid" },                   
 
-      // الصف 2 -> 3
-      { from: "oop", to: "oop_java", type: "solid" },
-      { from: "oop", to: "dig_logic", type: "dashed" },
-      { from: "oop", to: "data_modeling", type: "solid" },
-      { from: "oop", to: "intro_web", type: "solid" },
+  // --- الصف 2 إلى 3 ---
+  { from: "oop", to: "oop_java", type: "solid" },                 
+  { from: "oop", to: "ds", type: "solid" },                       
+  { from: "oop", to: "dig_logic", type: "dashed" },               
+  { from: "oop", to: "data_modeling", type: "dashed" },           
+  { from: "oop", to: "intro_web", type: "dashed" },              
 
-      // الصف 3 -> 4
-      { from: "ds", to: "algo", type: "dashed" },
-      { from: "oop_java", to: "visual_prog", type: "solid" },
-      { from: "data_modeling", to: "db_fund", type: "solid" },
-      { from: "oop_java", to: "se_fund", type: "solid" },
-      { from: "oop_java", to: "biz_data_comm", type: "dashed" },
-      { from: "intro_web", to: "web_dev", type: "solid" },
+  // --- الصف 3 إلى 4 ---
+  { from: "discrete", to: "ds", type: "dashed" },                  
+  { from: "oop_java", to: "visual_prog", type: "solid" },         
+  { from: "intro_web", to: "web_dev", type: "dashed" },           
+  { from: "dig_logic", to: "biz_data_comm", type: "dashed" },    
+  { from: "ds", to: "biz_data_comm", type: "dashed" },           
+  { from: "ds", to: "algo", type: "dashed" },                    
+  { from: "ds", to: "se_fund", type: "dashed" },                  
+  { from: "ds", to: "db_fund", type: "dashed" },                  
 
-      // الصف 4 -> 5
-      { from: "db_fund", to: "se_req", type: "solid" },
-      { from: "se_fund", to: "se_req", type: "solid" },
-      { from: "se_fund", to: "sys_analysis", type: "solid" },
-      { from: "se_fund", to: "sw_doc", type: "solid" },
-      { from: "se_fund", to: "se_lab", type: "solid" },
-      { from: "algo", to: "os", type: "dashed" },
-      { from: "visual_prog", to: "hci", type: "dashed" },
-      { from: "web_dev", to: "server_prog", type: "solid" },
-      { from: "web_dev", to: "web_eng", type: "solid" },
+  // --- الصف 4 إلى 5 ---
+  { from: "db_fund", to: "se_req", type: "solid" },                             
+  { from: "data_modeling", to: "se_req", type: "dashed" },
+  { from: "se_fund", to: "sys_analysis", type: "dashed" },        
+  { from: "se_fund", to: "sys_analysis", type: "dashed" },        
+  { from: "db_fund", to: "sys_analysis", type: "dashed" },          
 
-      // الصف 5 -> 6
-      { from: "se_req", to: "se_testing", type: "solid" },
-      { from: "sys_analysis", to: "proj_mgmt", type: "solid" },
-      { from: "sys_analysis", to: "se_arch", type: "solid" },
-      { from: "se_fund", to: "se_arch", type: "dashed" },
-      { from: "num_anal", to: "cyber_sec", type: "dashed" },
+  { from: "sys_analysis", to: "se_req", type: "dashed" },                                                                   
+  { from: "se_fund", to: "sw_doc", type: "dashed" },                
+  { from: "visual_prog", to: "se_lab", type: "dashed" },               
+  { from: "visual_prog", to: "server_prog", type: "solid" }, 
+  { from: "algo", to: "os", type: "dashed" },                     
+  { from: "visual_prog", to: "hci", type: "dashed" },            
+  { from: "web_dev", to: "web_eng", type: "dashed" },             
+  { from: "server_prog", to: "web_eng", type: "dashed" },        
 
-      // مشاريع التخرج
-      { from: "proj1", to: "proj2", type: "dashed" }
-    ];
+
+  // --- الصف 5 إلى 6 ---
+  { from: "sys_analysis", to: "se_testing", type: "dashed" },            
+  { from: "sys_analysis", to: "proj_mgmt", type: "dashed" },      
+  { from: "sys_analysis", to: "se_arch", type: "dashed" },         
+  { from: "se_arch", to: "cyber_sec", type: "dashed" },           
+  { from: "num_anal", to: "cyber_sec", type: "dashed" },         
+
+  // --- الصف 7 (مشاريع التخرج) ---
+  { from: "proj1", to: "proj2", type: "dashed" }  
+  
+  ];
 
     let userState = JSON.parse(localStorage.getItem('se_clean_plan_v2022_final') || '{}');
     let activeCourseId = null;
