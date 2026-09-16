@@ -12,17 +12,17 @@
     body.dark-mode {
       --bg-color: #080c14;
       --viewport-bg: radial-gradient(circle at center, #111827 0%, #080c14 100%);
-      --panel-bg: rgba(17, 24, 39, 0.92);
+      --panel-bg: #0f172a; /* خلفية معتمة صلبة Opaque 100% */
       --card-bg: #1e293b;
       --border-color: #334155;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --node-solid-fill: #111827;
+      --node-solid-fill: #0f172a;
       --node-text: #f1f5f9;
       --link-color: #64748b;
-      --glow-intensity: 12px;
+      --glow-intensity: 10px;
       --modal-bg: #1e293b;
-      --btn-bg: #334155;
+      --btn-bg: #1e293b;
 
       --c-completed-bg: #064e3b;
       --c-completed-text: #ffffff;
@@ -39,13 +39,13 @@
 
       --grid-dot-color: rgba(56, 189, 248, 0.07);
       --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.14);
+      --accent-soft: rgba(56, 189, 248, 0.16);
     }
 
     body.light-mode {
-      --bg-color: #f1f5f9;
+      --bg-color: #f8fafc;
       --viewport-bg: radial-gradient(circle at center, #ffffff 0%, #e2e8f0 100%);
-      --panel-bg: rgba(255, 255, 255, 0.95);
+      --panel-bg: #ffffff; /* خلفية معتمة صلبة Opaque 100% */
       --card-bg: #ffffff;
       --border-color: #cbd5e1;
       --text-main: #0f172a;
@@ -53,7 +53,7 @@
       --node-solid-fill: #ffffff;
       --node-text: #0f172a;
       --link-color: #94a3b8;
-      --glow-intensity: 7px;
+      --glow-intensity: 6px;
       --modal-bg: #ffffff;
       --btn-bg: #f1f5f9;
 
@@ -94,20 +94,18 @@
 
     #dashboard {
       position: absolute;
-      top: 12px;
-      left: 12px;
-      right: 12px;
+      top: 14px;
+      left: 14px;
+      right: 14px;
       z-index: 100;
       background: var(--panel-bg);
-      backdrop-filter: blur(14px);
-      border-radius: 18px;
-      padding: 14px 20px 16px;
-      box-shadow: 0 10px 34px rgba(0,0,0,0.28);
+      border-radius: 16px;
+      padding: 12px 18px 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
       border: 1px solid var(--border-color);
-      border-top: 1px solid var(--accent-soft);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
     }
 
     .dash-header {
@@ -119,7 +117,7 @@
     }
     .dash-header h2 {
       margin: 0;
-      font-size: 1.15rem;
+      font-size: 1.08rem;
       font-weight: 700;
       color: var(--accent);
       display: flex;
@@ -128,8 +126,8 @@
     }
     .dash-header h2::before {
       content: "";
-      width: 9px;
-      height: 9px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--accent);
       box-shadow: 0 0 8px var(--accent);
@@ -150,9 +148,9 @@
       background: var(--btn-bg);
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      padding: 6px 13px;
+      padding: 5px 12px;
       border-radius: 20px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       cursor: pointer;
       font-weight: 600;
       transition: all 0.2s;
@@ -161,8 +159,8 @@
 
     .collapse-btn {
       display: none;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       align-items: center;
       justify-content: center;
       background: var(--btn-bg);
@@ -176,9 +174,9 @@
 
     .stats-row {
       display: flex;
-      gap: 8px;
+      gap: 7px;
       flex-wrap: wrap;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       align-items: center;
       overflow: hidden;
       max-height: 200px;
@@ -193,18 +191,18 @@
     .stat-badge {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       font-weight: 600;
       background: var(--btn-bg);
       border: 1px solid var(--border-color);
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 999px;
     }
-    .badge-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+    .badge-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
 
     .progress-bar-bg {
       width: 100%;
-      height: 8px;
+      height: 7px;
       background: var(--border-color);
       border-radius: 6px;
       overflow: hidden;
@@ -223,22 +221,22 @@
       cursor: grab;
       overflow: hidden;
       background-color: var(--bg-color);
-      background-image: var(--viewport-bg), radial-gradient(var(--grid-dot-color) 1.4px, transparent 1.4px);
-      background-size: 100% 100%, 26px 26px;
+      background-image: var(--viewport-bg), radial-gradient(var(--grid-dot-color) 1.2px, transparent 1.2px);
+      background-size: 100% 100%, 22px 22px;
       background-position: 0 0, 0 0;
     }
     #viewport:active { cursor: grabbing; }
 
     svg#canvas { width: 100%; height: 100%; display: block; }
 
-    .link-solid { stroke: var(--link-color); stroke-width: 2.2; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
-    .link-dashed { stroke: var(--link-color); stroke-width: 2.2; stroke-dasharray: 6,6; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
+    .link-solid { stroke: var(--link-color); stroke-width: 2.1; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
+    .link-dashed { stroke: var(--link-color); stroke-width: 2.1; stroke-dasharray: 5,5; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
 
     .node-group { cursor: pointer; transition: transform 0.15s ease; transform-box: fill-box; transform-origin: center; }
 
     @media (hover: hover) and (pointer: fine) {
-      .node-group:hover { transform: scale(1.045); }
-      .node-group:hover .node-circle { stroke-width: 4.5px; }
+      .node-group:hover { transform: scale(1.05); }
+      .node-group:hover .node-circle { stroke-width: 4px; }
       .node-group:hover .node-mask { filter: brightness(1.1); }
     }
 
@@ -250,7 +248,7 @@
 
     .node-circle {
       fill: transparent;
-      stroke-width: 3.5px;
+      stroke-width: 3.2px;
       transition: all 0.2s ease;
     }
     .status-ring {
@@ -261,7 +259,7 @@
     }
 
     .node-text {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
       text-anchor: middle;
       dominant-baseline: central;
@@ -270,7 +268,7 @@
       transition: fill 0.25s ease;
     }
     .node-credits {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 600;
       text-anchor: middle;
       dominant-baseline: central;
@@ -278,31 +276,31 @@
       pointer-events: none;
     }
 
-    .status-completed .status-ring { stroke: #10b981; stroke-width: 5px; filter: drop-shadow(0 0 var(--glow-intensity) #10b981); }
+    .status-completed .status-ring { stroke: #10b981; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #10b981); }
     .status-completed .node-mask { fill: var(--c-completed-bg); }
     .status-completed .node-text { fill: var(--c-completed-text) !important; }
 
-    .status-current .status-ring { stroke: #3b82f6; stroke-width: 5px; animation: pulse-current-ring 2.6s ease-in-out infinite; }
+    .status-current .status-ring { stroke: #3b82f6; stroke-width: 4.5px; animation: pulse-current-ring 2.6s ease-in-out infinite; }
     .status-current .node-mask { fill: var(--c-current-bg); }
     .status-current .node-text { fill: var(--c-current-text); }
     @keyframes pulse-current-ring {
       0%, 100% { filter: drop-shadow(0 0 var(--glow-intensity) #3b82f6); }
-      50% { filter: drop-shadow(0 0 calc(var(--glow-intensity) * 2) #3b82f6); }
+      50% { filter: drop-shadow(0 0 calc(var(--glow-intensity) * 1.8) #3b82f6); }
     }
 
-    .status-next .status-ring { stroke: #f59e0b; stroke-width: 5px; filter: drop-shadow(0 0 var(--glow-intensity) #f59e0b); }
+    .status-next .status-ring { stroke: #f59e0b; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #f59e0b); }
     .status-next .node-mask { fill: var(--c-next-bg); }
     .status-next .node-text { fill: var(--c-next-text); }
 
-    .status-summer .status-ring { stroke: #ec4899; stroke-width: 5px; filter: drop-shadow(0 0 var(--glow-intensity) #ec4899); }
+    .status-summer .status-ring { stroke: #ec4899; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #ec4899); }
     .status-summer .node-mask { fill: var(--c-summer-bg); }
     .status-summer .node-text { fill: var(--c-summer-text); }
 
-    .status-next-year .status-ring { stroke: #a855f7; stroke-width: 5px; filter: drop-shadow(0 0 var(--glow-intensity) #a855f7); }
+    .status-next-year .status-ring { stroke: #a855f7; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #a855f7); }
     .status-next-year .node-mask { fill: var(--c-next-year-bg); }
     .status-next-year .node-text { fill: var(--c-next-year-text); }
 
-    .status-term-2028 .status-ring { stroke: #06b6d4; stroke-width: 5px; filter: drop-shadow(0 0 var(--glow-intensity) #06b6d4); }
+    .status-term-2028 .status-ring { stroke: #06b6d4; stroke-width: 4.5px; filter: drop-shadow(0 0 var(--glow-intensity) #06b6d4); }
     .status-term-2028 .node-mask { fill: var(--c-term-2028-bg); }
     .status-term-2028 .node-text { fill: var(--c-term-2028-text); }
 
@@ -314,12 +312,11 @@
       transition: opacity 0.15s ease, transform 0.15s ease;
       z-index: 200;
       background: var(--modal-bg);
-      border-radius: 16px;
-      box-shadow: 0 20px 46px rgba(0,0,0,0.5);
+      border-radius: 14px;
+      box-shadow: 0 20px 46px rgba(0,0,0,0.55);
       border: 1px solid var(--border-color);
-      padding: 16px;
-      padding-top: 18px;
-      width: 260px;
+      padding: 15px;
+      width: 250px;
       overflow: hidden;
     }
     #actionModal.show { opacity: 1; transform: scale(1) translateY(0); }
@@ -330,16 +327,16 @@
       height: 3px;
       background: linear-gradient(90deg, #38bdf8, #06b6d4);
     }
-    #actionModal h4 { margin: 0 0 12px 0; font-size: 0.92rem; color: var(--accent); text-align: center; font-weight: 700; }
+    #actionModal h4 { margin: 0 0 10px 0; font-size: 0.88rem; color: var(--accent); text-align: center; font-weight: 700; }
     .btn-status {
       display: block;
       width: 100%;
       text-align: inherit;
-      padding: 9px 13px;
-      margin-bottom: 6px;
+      padding: 8px 12px;
+      margin-bottom: 5px;
       border: 1px solid transparent;
-      border-radius: 9px;
-      font-size: 0.83rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
       cursor: pointer;
       font-weight: 600;
       transition: transform 0.1s, filter 0.15s;
@@ -359,16 +356,14 @@
       bottom: 16px;
       right: 16px;
       background: var(--panel-bg);
-      backdrop-filter: blur(10px);
       border: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--accent-soft);
-      padding: 10px 16px;
-      border-radius: 14px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-      font-size: 0.74rem;
+      padding: 9px 14px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      font-size: 0.72rem;
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 6px;
       z-index: 100;
     }
     body[dir="ltr"] .legend-box { right: auto; left: 16px; }
@@ -381,45 +376,44 @@
       z-index: 100;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
     }
     body[dir="ltr"] .zoom-controls { left: auto; right: 16px; }
     .zoom-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
       background: var(--panel-bg);
-      backdrop-filter: blur(10px);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
       line-height: 1;
       padding: 0;
     }
     .zoom-btn:active { transform: scale(0.92); }
-    .zoom-btn.fit-btn { font-size: 0.95rem; color: var(--accent); }
+    .zoom-btn.fit-btn { font-size: 0.88rem; color: var(--accent); }
 
     @media (max-width: 768px) {
-      #dashboard { padding: 10px 14px; border-radius: 14px; gap: 8px; }
-      .dash-header h2 { font-size: 0.92rem; }
-      .stats-row { font-size: 0.7rem; gap: 6px; }
-      .stat-badge { padding: 3px 8px; }
+      #dashboard { padding: 9px 12px; border-radius: 12px; gap: 7px; }
+      .dash-header h2 { font-size: 0.88rem; }
+      .stats-row { font-size: 0.68rem; gap: 5px; }
+      .stat-badge { padding: 2px 7px; }
       .legend-box { display: none; }
       .collapse-btn { display: flex; }
-      .zoom-btn { width: 40px; height: 40px; }
+      .zoom-btn { width: 36px; height: 36px; }
       #actionModal {
         position: fixed;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) scale(0.95);
         width: 85vw;
-        max-width: 320px;
+        max-width: 300px;
       }
       #actionModal.show { transform: translate(-50%, -50%) scale(1); }
     }
@@ -435,7 +429,7 @@
         <button class="toggle-btn" onclick="toggleTheme()" id="themeBtn">☀️ White</button>
         <button class="toggle-btn" onclick="toggleLang()" id="langBtn">🌐 English</button>
       </div>
-      <div style="font-size: 0.82rem; color: var(--text-muted);">
+      <div style="font-size: 0.8rem; color: var(--text-muted);">
         <span id="lblProgress">الإنجاز:</span> 
         <strong id="pctText" style="color: var(--accent);">0%</strong> 
         (<strong id="completedHours">0</strong> / <span id="totalHours">132</span> <span id="lblHoursUnit">ساعة</span>)
@@ -452,18 +446,18 @@
       <div class="stat-badge"><span class="badge-dot" style="background: #ec4899;"></span> <span id="lblStatusSummer">صيفي 2027:</span> <span id="count-summer">0 س</span></div>
       <div class="stat-badge"><span class="badge-dot" style="background: #a855f7;"></span> <span id="lblStatusNextYear">الأول 2027/2028:</span> <span id="count-next-year">0 س</span></div>
       <div class="stat-badge"><span class="badge-dot" style="background: #06b6d4;"></span> <span id="lblStatusTerm2028">الثاني 2028:</span> <span id="count-term-2028">0 س</span></div>
-      <div style="margin-right: auto; color: var(--text-muted); font-size: 0.72rem; font-weight: 500; opacity: 0.85;" id="lblControlsHint"></div>
+      <div style="margin-right: auto; color: var(--text-muted); font-size: 0.7rem; font-weight: 500; opacity: 0.85;" id="lblControlsHint"></div>
     </div>
   </div>
 
   <div class="legend-box">
-    <div style="font-weight: 700; margin-bottom: 2px; color: var(--accent); font-size: 0.78rem;" id="lblLegendTitle">دليل التوجيه الشبكي:</div>
+    <div style="font-weight: 700; margin-bottom: 2px; color: var(--accent); font-size: 0.74rem;" id="lblLegendTitle">دليل التوجيه الشبكي:</div>
     <div class="legend-item">
-      <svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="var(--link-color)" stroke-width="2.5"/></svg>
+      <svg width="22" height="10"><line x1="0" y1="5" x2="22" y2="5" stroke="var(--link-color)" stroke-width="2.2"/></svg>
       <span id="lblPrereqPass">سابق نجاح</span>
     </div>
     <div class="legend-item">
-      <svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="var(--link-color)" stroke-width="2.5" stroke-dasharray="4,4"/></svg>
+      <svg width="22" height="10"><line x1="0" y1="5" x2="22" y2="5" stroke="var(--link-color)" stroke-width="2.2" stroke-dasharray="4,4"/></svg>
       <span id="lblPrereqStudy">سابق دراسة / متزامن</span>
     </div>
     <div class="legend-item">
@@ -481,11 +475,11 @@
   <div id="viewport">
     <svg id="canvas">
       <defs>
-        <marker id="arrow-solid" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
-          <path d="M 0 0 L 8 4.5 L 0 9 Z" fill="var(--link-color)" />
+        <marker id="arrow-solid" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+          <path d="M 0 0 L 7 4 L 0 8 Z" fill="var(--link-color)" />
         </marker>
-        <marker id="arrow-dashed" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
-          <path d="M 0 0 L 8 4.5 L 0 9 Z" fill="var(--link-color)" />
+        <marker id="arrow-dashed" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+          <path d="M 0 0 L 7 4 L 0 8 Z" fill="var(--link-color)" />
         </marker>
       </defs>
       <g id="scene"></g>
@@ -504,8 +498,9 @@
   </div>
 
   <script>
-    const nodeRadius = 45;
-    const ringRadius = 52;
+    // تم تصغير نصف قطر الدوائر والشبكة لجعل الكانفاس ملموماً ومريحاً
+    const nodeRadius = 38;
+    const ringRadius = 45;
 
     const translations = {
       ar: {
@@ -569,128 +564,112 @@
     let currentLang = localStorage.getItem('se_study_lang') || 'ar';
     let currentTheme = localStorage.getItem('se_study_theme') || 'dark';
 
-    // توزيع مواد هندسة البرمجيات على شبكة بكسل ثابتة (Fixed Pixel Grid)
+    // توزيع مواد هندسة البرمجيات بأبعاد ملمومة ومضغوطة بنسبة 25%
     const nodes = [
-      // الصف 1: الأساسيات والعلوم العامة (y: 160)
-      { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال", name_en: "Arabic\nCommunication", cr: 3, x: 1380, y: 160, stroke: "#f43f5e" },
-      { id: "eng1", name_ar: "اللغة الإنجليزية\nومهارات الاتصال", name_en: "English\nCommunication", cr: 3, x: 1200, y: 160, stroke: "#f43f5e" },
-      { id: "calc2", name_ar: "تفاضل\nوتكامل 2", name_en: "Calculus 2", cr: 3, x: 1040, y: 160, stroke: "#38bdf8" },
-      { id: "calc1", name_ar: "تفاضل\nوتكامل 1", name_en: "Calculus 1", cr: 3, x: 880, y: 160, stroke: "#38bdf8" },
-      { id: "prog1", name_ar: "مقدمة\nإلى البرمجة", name_en: "Intro to\nProgramming", cr: 3, x: 720, y: 160, stroke: "#f59e0b" },
-      { id: "intro_it", name_ar: "مقدمة إلى\nتكنولوجيا المعلومات", name_en: "Intro to IT", cr: 3, x: 560, y: 160, stroke: "#b91c1c" },
-      { id: "phys2", name_ar: "فيزياء 2", name_en: "Physics 2", cr: 3, x: 400, y: 160, stroke: "#a855f7" },
-      { id: "phys_lab", name_ar: "فيزياء عامة\nعملي", name_en: "Physics\nLab", cr: 1, x: 240, y: 160, stroke: "#a855f7" },
-      { id: "leadership", name_ar: "القيادة\nوالمسؤولية", name_en: "Leadership &\nResponsibility", cr: 2, x: 80, y: 160, stroke: "#f43f5e" },
+      // الصف 1: الأساسيات (y: 130)
+      { id: "arabic", name_ar: "اللغة العربية\nومهارات الاتصال", name_en: "Arabic\nCommunication", cr: 3, x: 1100, y: 130, stroke: "#f43f5e" },
+      { id: "eng1", name_ar: "اللغة الإنجليزية\nومهارات الاتصال", name_en: "English\nCommunication", cr: 3, x: 960, y: 130, stroke: "#f43f5e" },
+      { id: "calc2", name_ar: "تفاضل\nوتكامل 2", name_en: "Calculus 2", cr: 3, x: 830, y: 130, stroke: "#38bdf8" },
+      { id: "calc1", name_ar: "تفاضل\nوتكامل 1", name_en: "Calculus 1", cr: 3, x: 700, y: 130, stroke: "#38bdf8" },
+      { id: "prog1", name_ar: "مقدمة\nإلى البرمجة", name_en: "Intro to\nProgramming", cr: 3, x: 570, y: 130, stroke: "#f59e0b" },
+      { id: "intro_it", name_ar: "مقدمة إلى\nتكنولوجيا المعلومات", name_en: "Intro to IT", cr: 3, x: 440, y: 130, stroke: "#b91c1c" },
+      { id: "phys2", name_ar: "فيزياء 2", name_en: "Physics 2", cr: 3, x: 310, y: 130, stroke: "#a855f7" },
+      { id: "phys_lab", name_ar: "فيزياء عامة\nعملي", name_en: "Physics\nLab", cr: 1, x: 190, y: 130, stroke: "#a855f7" },
+      { id: "leadership", name_ar: "القيادة\nوالمسؤولية", name_en: "Leadership &\nResponsibility", cr: 2, x: 70, y: 130, stroke: "#f43f5e" },
 
-      // الصف 2: المستوى الثاني التأسيسي (y: 340)
-      { id: "uni_elec1", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (1)", cr: 3, x: 1380, y: 340, stroke: "#64748b" },
-      { id: "prob", name_ar: "إحصاء\nواحتمالات", name_en: "Probability &\nStatistics", cr: 3, x: 1140, y: 340, stroke: "#38bdf8" },
-      { id: "linear_alg", name_ar: "مبادئ\nالجبر الخطي", name_en: "Linear\nAlgebra", cr: 3, x: 960, y: 340, stroke: "#38bdf8" },
-      { id: "discrete", name_ar: "رياضيات\nمتقطعة", name_en: "Discrete\nMath", cr: 3, x: 800, y: 340, stroke: "#38bdf8" },
-      { id: "oop", name_ar: "مقدمة إلى\nالبرمجة الكينونية", name_en: "Intro to\nOOP", cr: 3, x: 640, y: 340, stroke: "#b91c1c" },
-      { id: "intro_web", name_ar: "مقدمة في\nصفحات الويب", name_en: "Intro to Web\nPages", cr: 3, x: 460, y: 340, stroke: "#0284c7" },
-      { id: "entrep", name_ar: "الريادة\nوالإبداع", name_en: "Entrepreneurship\n& Innovation", cr: 2, x: 260, y: 340, stroke: "#f43f5e" },
-      { id: "life_skills", name_ar: "المهارات\nالحياتية", name_en: "Life\nSkills", cr: 2, x: 80, y: 340, stroke: "#f43f5e" },
+      // الصف 2: التأسيس والتخصص المبدئي (y: 270)
+      { id: "uni_elec1", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (1)", cr: 3, x: 1100, y: 270, stroke: "#64748b" },
+      { id: "prob", name_ar: "إحصاء\nواحتمالات", name_en: "Probability &\nStatistics", cr: 3, x: 910, y: 270, stroke: "#38bdf8" },
+      { id: "linear_alg", name_ar: "مبادئ\nالجبر الخطي", name_en: "Linear\nAlgebra", cr: 3, x: 770, y: 270, stroke: "#38bdf8" },
+      { id: "discrete", name_ar: "رياضيات\nمتقطعة", name_en: "Discrete\nMath", cr: 3, x: 640, y: 270, stroke: "#38bdf8" },
+      { id: "oop", name_ar: "مقدمة إلى\nالبرمجة الكينونية", name_en: "Intro to\nOOP", cr: 3, x: 510, y: 270, stroke: "#b91c1c" },
+      { id: "intro_web", name_ar: "مقدمة في\nصفحات الويب", name_en: "Intro to Web\nPages", cr: 3, x: 370, y: 270, stroke: "#0284c7" },
+      { id: "entrep", name_ar: "الريادة\nوالإبداع", name_en: "Entrepreneurship\n& Innovation", cr: 2, x: 210, y: 270, stroke: "#f43f5e" },
+      { id: "life_skills", name_ar: "المهارات\nالحياتية", name_en: "Life\nSkills", cr: 2, x: 70, y: 270, stroke: "#f43f5e" },
 
-      // الصف 3: قلب هندسة البرمجيات (y: 520)
-      { id: "mil_sci", name_ar: "علوم\nعسكرية", name_en: "Military\nSciences", cr: 3, x: 1380, y: 520, stroke: "#f43f5e" },
-      { id: "se_fund", name_ar: "أساسيات\nهندسة البرمجيات", name_en: "Software Eng.\nFundamentals", cr: 3, x: 1180, y: 520, stroke: "#b91c1c" },
-      { id: "ds", name_ar: "تراكيب\nالبيانات", name_en: "Data\nStructures", cr: 3, x: 960, y: 520, stroke: "#f59e0b" },
-      { id: "oop_lab", name_ar: "مختبر نمذجة\nالبرمجة الكينونية", name_en: "OOP Modeling\nLab", cr: 1, x: 780, y: 520, stroke: "#f59e0b" },
-      { id: "db_fund", name_ar: "أساسيات\nقواعد البيانات", name_en: "Database\nFundamentals", cr: 3, x: 580, y: 520, stroke: "#0284c7" },
-      { id: "dig_logic", name_ar: "تصميم\nالمنطق الرقمي", name_en: "Digital Logic\nDesign", cr: 3, x: 380, y: 520, stroke: "#a3e635" },
-      { id: "comm_skills", name_ar: "مهارات الاتصال\nوأخلاقيات المهنة", name_en: "Ethics & Comm.\nSkills", cr: 2, x: 180, y: 520, stroke: "#0284c7" },
+      // الصف 3: قلب هندسة البرمجيات (y: 410)
+      { id: "mil_sci", name_ar: "علوم\nعسكرية", name_en: "Military\nSciences", cr: 3, x: 1100, y: 410, stroke: "#f43f5e" },
+      { id: "se_fund", name_ar: "أساسيات\nهندسة البرمجيات", name_en: "Software Eng.\nFundamentals", cr: 3, x: 940, y: 410, stroke: "#b91c1c" },
+      { id: "ds", name_ar: "تراكيب\nالبيانات", name_en: "Data\nStructures", cr: 3, x: 770, y: 410, stroke: "#f59e0b" },
+      { id: "oop_lab", name_ar: "مختبر نمذجة\nالبرمجة الكينونية", name_en: "OOP Modeling\nLab", cr: 1, x: 620, y: 410, stroke: "#f59e0b" },
+      { id: "db_fund", name_ar: "أساسيات\nقواعد البيانات", name_en: "Database\nFundamentals", cr: 3, x: 460, y: 410, stroke: "#0284c7" },
+      { id: "dig_logic", name_ar: "تصميم\nالمنطق الرقمي", name_en: "Digital Logic\nDesign", cr: 3, x: 300, y: 410, stroke: "#a3e635" },
+      { id: "comm_skills", name_ar: "مهارات الاتصال\nوأخلاقيات المهنة", name_en: "Ethics & Comm.\nSkills", cr: 2, x: 150, y: 410, stroke: "#0284c7" },
 
-      // الصف 4: التحليل والتصميم والخوارزميات (y: 700)
-      { id: "se_req", name_ar: "هندسة\nمتطلبات البرمجيات", name_en: "Software Req.\nEngineering", cr: 3, x: 1260, y: 700, stroke: "#b91c1c" },
-      { id: "se_arch", name_ar: "معمارية وتصميم\nالبرمجيات", name_en: "Software Arch.\n& Design", cr: 3, x: 1080, y: 700, stroke: "#b91c1c" },
-      { id: "algo", name_ar: "تحليل وتصميم\nالخوارزميات", name_en: "Algorithms\nAnalysis & Design", cr: 3, x: 900, y: 700, stroke: "#f59e0b" },
-      { id: "hci", name_ar: "تفاعل الإنسان\nمع الحاسوب", name_en: "HCI", cr: 3, x: 720, y: 700, stroke: "#f59e0b" },
-      { id: "comp_org", name_ar: "تنظيم\nالحاسوب", name_en: "Computer\nOrganization", cr: 3, x: 500, y: 700, stroke: "#22c55e" },
-      { id: "web_tech", name_ar: "تكنولوجيا\nالشبكة العنكبوتية", name_en: "Web\nTechnologies", cr: 3, x: 300, y: 700, stroke: "#f59e0b" },
+      // الصف 4: التحليل والمعمارية والخوارزميات (y: 550)
+      { id: "se_req", name_ar: "هندسة\nمتطلبات البرمجيات", name_en: "Software Req.\nEngineering", cr: 3, x: 1000, y: 550, stroke: "#b91c1c" },
+      { id: "se_arch", name_ar: "معمارية وتصميم\nالبرمجيات", name_en: "Software Arch.\n& Design", cr: 3, x: 860, y: 550, stroke: "#b91c1c" },
+      { id: "algo", name_ar: "تحليل وتصميم\nالخوارزميات", name_en: "Algorithms\nAnalysis & Design", cr: 3, x: 720, y: 550, stroke: "#f59e0b" },
+      { id: "hci", name_ar: "تفاعل الإنسان\nمع الحاسوب", name_en: "HCI", cr: 3, x: 570, y: 550, stroke: "#f59e0b" },
+      { id: "comp_org", name_ar: "تنظيم\nالحاسوب", name_en: "Computer\nOrganization", cr: 3, x: 390, y: 550, stroke: "#22c55e" },
+      { id: "web_tech", name_ar: "تكنولوجيا\nالشبكة العنكبوتية", name_en: "Web\nTechnologies", cr: 3, x: 230, y: 550, stroke: "#f59e0b" },
 
-      // الصف 5: فحص وجودة وإدارة البرمجيات (y: 880)
-      { id: "se_testing", name_ar: "فحص البرمجيات\nوضمان الجودة", name_en: "Software Testing\n& QA", cr: 3, x: 1260, y: 880, stroke: "#b91c1c" },
-      { id: "se_proj_mgmt", name_ar: "إدارة مشاريع\nالبرمجيات", name_en: "Software Project\nManagement", cr: 3, x: 1080, y: 880, stroke: "#b91c1c" },
-      { id: "networks", name_ar: "شبكات\nالحاسوب", name_en: "Computer\nNetworks", cr: 3, x: 880, y: 880, stroke: "#f59e0b" },
-      { id: "os", name_ar: "مبادئ نظم\nالتشغيل", name_en: "Operating\nSystems", cr: 3, x: 680, y: 880, stroke: "#f59e0b" },
-      { id: "dept_elec1", name_ar: "اختياري\nقسم (1)", name_en: "Dept Elective\n(1)", cr: 3, x: 440, y: 880, stroke: "#64748b" },
-      { id: "dept_elec2", name_ar: "اختياري\nقسم (2)", name_en: "Dept Elective\n(2)", cr: 3, x: 220, y: 880, stroke: "#64748b" },
+      // الصف 5: الجودة والإدارة والشبكات (y: 690)
+      { id: "se_testing", name_ar: "فحص البرمجيات\nوضمان الجودة", name_en: "Software Testing\n& QA", cr: 3, x: 1000, y: 690, stroke: "#b91c1c" },
+      { id: "se_proj_mgmt", name_ar: "إدارة مشاريع\nالبرمجيات", name_en: "Software Project\nManagement", cr: 3, x: 860, y: 690, stroke: "#b91c1c" },
+      { id: "networks", name_ar: "شبكات\nالحاسوب", name_en: "Computer\nNetworks", cr: 3, x: 700, y: 690, stroke: "#f59e0b" },
+      { id: "os", name_ar: "مبادئ نظم\nالتشغيل", name_en: "Operating\nSystems", cr: 3, x: 540, y: 690, stroke: "#f59e0b" },
+      { id: "dept_elec1", name_ar: "اختياري\nقسم (1)", name_en: "Dept Elective\n(1)", cr: 3, x: 350, y: 690, stroke: "#64748b" },
+      { id: "dept_elec2", name_ar: "اختياري\nقسم (2)", name_en: "Dept Elective\n(2)", cr: 3, x: 180, y: 690, stroke: "#64748b" },
 
-      // الصف 6: التدريب والمشاريع المتقدمة (y: 1060)
-      { id: "training", name_ar: "التدريب\nالميداني", name_en: "Field\nTraining", cr: 3, x: 1260, y: 1060, stroke: "#b91c1c" },
-      { id: "proj2", name_ar: "مشروع تخرج\n2", name_en: "Graduation Proj\n(2)", cr: 2, x: 1000, y: 1060, stroke: "#b91c1c" },
-      { id: "proj1", name_ar: "مشروع تخرج\n1", name_en: "Graduation Proj\n(1)", cr: 1, x: 820, y: 1060, stroke: "#b91c1c" },
-      { id: "se_construct", name_ar: "بناء وتطوير\nالبرمجيات", name_en: "Software\nConstruction", cr: 3, x: 600, y: 1060, stroke: "#b91c1c" },
-      { id: "dept_elec3", name_ar: "اختياري\nقسم (3)", name_en: "Dept Elective\n(3)", cr: 3, x: 380, y: 1060, stroke: "#64748b" }
+      // الصف 6: التدريب والمشاريع (y: 830)
+      { id: "training", name_ar: "التدريب\nالميداني", name_en: "Field\nTraining", cr: 3, x: 1000, y: 830, stroke: "#b91c1c" },
+      { id: "proj2", name_ar: "مشروع تخرج\n2", name_en: "Graduation Proj\n(2)", cr: 2, x: 800, y: 830, stroke: "#b91c1c" },
+      { id: "proj1", name_ar: "مشروع تخرج\n1", name_en: "Graduation Proj\n(1)", cr: 1, x: 650, y: 830, stroke: "#b91c1c" },
+      { id: "se_construct", name_ar: "بناء وتطوير\nالبرمجيات", name_en: "Software\nConstruction", cr: 3, x: 480, y: 830, stroke: "#b91c1c" },
+      { id: "dept_elec3", name_ar: "اختياري\nقسم (3)", name_en: "Dept Elective\n(3)", cr: 3, x: 300, y: 830, stroke: "#64748b" }
     ];
 
-    // شبكة العلاقات والاعتماديات
     const links = [
-      // الصف 1
       { from: "calc1", to: "calc2", type: "solid" },
       { from: "intro_it", to: "prog1", type: "dashed" },
       { from: "phys2", to: "phys_lab", type: "dashed" },
-
-      // الصف 1 -> 2
       { from: "calc2", to: "prob", type: "dashed" },
       { from: "calc1", to: "linear_alg", type: "dashed" },
       { from: "prog1", to: "discrete", type: "solid" },
       { from: "prog1", to: "oop", type: "solid" },
       { from: "intro_it", to: "intro_web", type: "solid" },
-
-      // الصف 2 -> 3
       { from: "oop", to: "se_fund", type: "solid" },
       { from: "oop", to: "ds", type: "solid" },
       { from: "oop", to: "oop_lab", type: "solid" },
       { from: "ds", to: "db_fund", type: "solid" },
       { from: "prog1", to: "dig_logic", type: "solid" },
-
-      // الصف 3 -> 4
       { from: "se_fund", to: "se_req", type: "solid" },
       { from: "se_fund", to: "se_arch", type: "solid" },
       { from: "ds", to: "algo", type: "solid" },
       { from: "oop", to: "hci", type: "solid" },
       { from: "prog1", to: "comp_org", type: "solid" },
       { from: "intro_web", to: "web_tech", type: "dashed" },
-
-      // الصف 4 -> 5
       { from: "se_arch", to: "se_testing", type: "solid" },
       { from: "se_req", to: "se_proj_mgmt", type: "solid" },
       { from: "ds", to: "networks", type: "solid" },
       { from: "ds", to: "os", type: "solid" },
-
-      // الصف 5 -> 6
       { from: "se_testing", to: "training", type: "dashed" },
       { from: "se_arch", to: "se_construct", type: "solid" },
       { from: "se_proj_mgmt", to: "proj1", type: "solid" },
       { from: "proj1", to: "proj2", type: "dashed" }
     ];
 
-    let userState = JSON.parse(localStorage.getItem('se_study_graph_v1') || '{}');
+    let userState = JSON.parse(localStorage.getItem('se_study_graph_vCOMPACT') || '{}');
     let activeCourseId = null;
 
     const scene = document.getElementById('scene');
     const nodesMap = {};
     nodes.forEach(n => nodesMap[n.id] = n);
 
-    // دالة توليد المسار الشبكي المتعامد (Orthogonal Routing Algorithm)
+    // دالة المسار الشبكي المتعامد بالزوايا القائمة
     function generateOrthogonalPath(source, target, offset = 0) {
       const r = ringRadius;
       
-      // إذا كانت المواد فوق بعضها تماماً على نفس الخط الرأسي
       if (Math.abs(source.x - target.x) < 8 && target.y > source.y) {
-        return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 5}`;
+        return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 4}`;
       }
 
-      // إذا كان الهدف في صف تالٍ للأسفل
       if (target.y > source.y) {
         const startX = source.x;
         const startY = source.y + r;
         const endX = target.x;
-        const endY = target.y - r - 5;
-        
-        // ممر العبور الأفقي في منتصف المسافة بين الصفين
+        const endY = target.y - r - 4;
         const channelY = source.y + (target.y - source.y) / 2 + offset;
 
         return `M ${startX} ${startY} 
@@ -699,20 +678,18 @@
                 L ${endX} ${endY}`;
       }
 
-      // إذا كانت المواد في نفس الصف أفقياً (متزامن)
-      if (Math.abs(source.y - target.y) <= 40) {
+      if (Math.abs(source.y - target.y) <= 30) {
         const isLeft = target.x < source.x;
         const startX = source.x + (isLeft ? -r : r);
-        const endX = target.x + (isLeft ? r + 5 : -r - 5);
+        const endX = target.x + (isLeft ? r + 4 : -r - 4);
         return `M ${startX} ${source.y} L ${endX} ${target.y}`;
       }
 
-      // مسار التفافي للمواد المتباعدة
       const startX = source.x;
       const startY = source.y + r;
       const endX = target.x;
-      const endY = target.y - r - 5;
-      const channelY = source.y + 80 + offset;
+      const endY = target.y - r - 4;
+      const channelY = source.y + 60 + offset;
 
       return `M ${startX} ${startY} 
               L ${startX} ${channelY} 
@@ -774,14 +751,12 @@
     function renderDiagram() {
       scene.innerHTML = '';
 
-      // رسم الأسهم باستخدام التوجيه الشبكي المتعامد
       links.forEach((l, idx) => {
         const source = nodesMap[l.from];
         const target = nodesMap[l.to];
         if (!source || !target) return;
 
-        // إزاحة خفيفة بين القنوات لمنع تطابق خطوط الأسهم
-        const channelOffset = (idx % 5 - 2) * 9;
+        const channelOffset = (idx % 5 - 2) * 7;
         const d = generateOrthogonalPath(source, target, channelOffset);
 
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -864,7 +839,7 @@
 
         const nameText = currentLang === 'ar' ? n.name_ar : n.name_en;
         const lines = nameText.split('\n');
-        const lineHeight = 11.5;
+        const lineHeight = 11;
         const startY = n.y - ((lines.length) * lineHeight) / 2;
 
         lines.forEach((txt, idx) => {
@@ -878,7 +853,7 @@
 
         const crEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
         crEl.setAttribute("x", n.x);
-        crEl.setAttribute("y", n.y + 28);
+        crEl.setAttribute("y", n.y + 24);
         crEl.setAttribute("class", "node-credits");
         crEl.textContent = `${n.cr} ${t.crSuffix}`;
         g.appendChild(crEl);
@@ -908,8 +883,8 @@
       if (window.innerWidth > 768) {
         let left = clientX + 10;
         let top = clientY + 10;
-        if (left + 270 > window.innerWidth) left = clientX - 270;
-        if (top + 340 > window.innerHeight) top = clientY - 340;
+        if (left + 260 > window.innerWidth) left = clientX - 260;
+        if (top + 320 > window.innerHeight) top = clientY - 320;
         modal.style.left = left + 'px';
         modal.style.top = top + 'px';
       }
@@ -941,7 +916,7 @@
       } else {
         userState[activeCourseId] = status;
       }
-      localStorage.setItem('se_study_graph_v1', JSON.stringify(userState));
+      localStorage.setItem('se_study_graph_vCOMPACT', JSON.stringify(userState));
 
       const nodeEl = document.getElementById(`node-${activeCourseId}`);
       if (nodeEl) {
@@ -991,12 +966,12 @@
 
     let isPanning = false;
     let startX = 0, startY = 0;
-    let currentX = 15, currentY = 100, scale = 0.65;
+    let currentX = 15, currentY = 120, scale = 0.72;
     let initialPinchDist = null;
     let initialPinchScale = 1;
     let pinchAnchorScreen = null;
     let pinchAnchorScene = null;
-    const MIN_SCALE = 0.15, MAX_SCALE = 2.5;
+    const MIN_SCALE = 0.18, MAX_SCALE = 2.5;
     let fitTimeout = null;
 
     function applyTransform() {
@@ -1021,7 +996,7 @@
 
     function zoomStep(dir) {
       const vw = viewport.clientWidth, vh = viewport.clientHeight;
-      zoomAround(vw / 2, vh / 2, scale * (dir > 0 ? 1.28 : 0.78));
+      zoomAround(vw / 2, vh / 2, scale * (dir > 0 ? 1.25 : 0.8));
       animatedTransform();
     }
 
@@ -1030,8 +1005,8 @@
       nodes.forEach(n => {
         minX = Math.min(minX, n.x - ringRadius - 6);
         maxX = Math.max(maxX, n.x + ringRadius + 6);
-        minY = Math.min(minY, n.y - ringRadius - 20);
-        maxY = Math.max(maxY, n.y + ringRadius + 34);
+        minY = Math.min(minY, n.y - ringRadius - 16);
+        maxY = Math.max(maxY, n.y + ringRadius + 28);
       });
       return { minX, maxX, minY, maxY };
     }
@@ -1039,7 +1014,7 @@
     function centerOn(targetX, targetY, targetScale, animate) {
       const vw = viewport.clientWidth, vh = viewport.clientHeight;
       const headerH = document.getElementById('dashboard').getBoundingClientRect().height;
-      const availTop = headerH + 16;
+      const availTop = headerH + 20; // مسافة أمان رأسية واضحة تحت الـ Widget
       const availH = Math.max(120, vh - availTop - 16);
       scale = Math.min(Math.max(MIN_SCALE, targetScale), MAX_SCALE);
       currentX = vw / 2 - targetX * scale;
@@ -1053,9 +1028,9 @@
       const graphH = b.maxY - b.minY;
       const vw = viewport.clientWidth, vh = viewport.clientHeight;
       const headerH = document.getElementById('dashboard').getBoundingClientRect().height;
-      const pad = 20;
+      const pad = 24;
       const availW = Math.max(100, vw - pad * 2);
-      const availH = Math.max(100, vh - headerH - pad * 2 - 12);
+      const availH = Math.max(100, vh - headerH - pad * 2 - 16);
       const fitScale = Math.min(availW / graphW, availH / graphH);
       const midX = (b.minX + b.maxX) / 2;
       const midY = (b.minY + b.maxY) / 2;
@@ -1064,7 +1039,7 @@
 
     function mobileFocusScale() {
       const vw = viewport.clientWidth;
-      return Math.min(1.05, Math.max(0.55, vw / 480));
+      return Math.min(1.05, Math.max(0.6, vw / 460));
     }
 
     function initialMobileView() {
@@ -1074,7 +1049,7 @@
         tx = activeNodes.reduce((s, n) => s + n.x, 0) / activeNodes.length;
         ty = activeNodes.reduce((s, n) => s + n.y, 0) / activeNodes.length;
       } else {
-        tx = 720; ty = 160;
+        tx = 570; ty = 130;
       }
       centerOn(tx, ty, mobileFocusScale(), false);
     }
