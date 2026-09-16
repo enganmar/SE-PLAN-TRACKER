@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>خطة هندسة البرمجيات | SE Plan Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap"
+    rel="stylesheet">
+
   <style>
     body.dark-mode {
       --bg-color: #060911;
@@ -20,10 +23,15 @@
       --text-muted: #94a3b8;
       --node-solid-fill: #0b1120;
       --node-text: #f1f5f9;
-      --link-color: #64748b;
       --glow-intensity: 10px;
       --modal-bg: #1e293b;
       --btn-bg: #1e293b;
+
+      /* ألوان خطوط التوجيه في الوضع الليلي */
+      --link-solid: #38bdf8;
+      /* أزرق سماوي لسابق النجاح */
+      --link-dashed: #c084fc;
+      /* نهدي لسابق الدراسة */
 
       --c-completed-bg: #064e3b;
       --c-completed-text: #ffffff;
@@ -54,10 +62,15 @@
       --text-muted: #64748b;
       --node-solid-fill: #ffffff;
       --node-text: #0f172a;
-      --link-color: #94a3b8;
       --glow-intensity: 6px;
       --modal-bg: #ffffff;
       --btn-bg: #f1f5f9;
+
+      /* ألوان خطوط التوجيه في الوضع النهاري */
+      --link-solid: #0284c7;
+      /* أزرق واضح لسابق النجاح */
+      --link-dashed: #9333ea;
+      /* نهدي غامق لسابق الدراسة */
 
       --c-completed-bg: #d1fae5;
       --c-completed-text: #065f46;
@@ -77,22 +90,51 @@
       --accent-soft: rgba(8, 145, 178, 0.12);
     }
 
-    * { box-sizing: border-box; user-select: none; -webkit-touch-callout: none; }
-    
-    body[dir="rtl"], body[dir="rtl"] * {
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+    }
+
+    body[dir="rtl"],
+    body[dir="rtl"] * {
       font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
     }
-    body[dir="ltr"], body[dir="ltr"] * {
+
+    body[dir="ltr"],
+    body[dir="ltr"] * {
       font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
-    #pctText, #completedHours, #totalHours, #completedCourses, #totalCourses,
-    #count-completed, #count-current, #count-next, #count-summer, #count-next-year, #count-term-2028,
+
+    #pctText,
+    #completedHours,
+    #totalHours,
+    #completedCourses,
+    #totalCourses,
+    #count-completed,
+    #count-current,
+    #count-next,
+    #count-summer,
+    #count-next-year,
+    #count-term-2028,
     .node-credits {
       font-family: 'IBM Plex Mono', 'Consolas', monospace !important;
       letter-spacing: 0.01em;
     }
 
-    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: var(--bg-color); color: var(--text-main); transition: background-color 0.3s; touch-action: none; }
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      transition: background-color 0.3s;
+      touch-action: none;
+    }
 
     #dashboard {
       position: absolute;
@@ -105,7 +147,7 @@
       -webkit-backdrop-filter: blur(10px);
       border-radius: 0;
       padding: 12px 18px 14px;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
       border-bottom: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
@@ -119,6 +161,7 @@
       flex-wrap: wrap;
       gap: 8px;
     }
+
     .dash-header h2 {
       margin: 0;
       font-size: 1.08rem;
@@ -128,6 +171,7 @@
       align-items: center;
       gap: 8px;
     }
+
     .dash-header h2::before {
       content: "";
       width: 8px;
@@ -138,9 +182,19 @@
       flex-shrink: 0;
       animation: pulse-dot 2.4s ease-in-out infinite;
     }
+
     @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.55; transform: scale(0.8); }
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.55;
+        transform: scale(0.8);
+      }
     }
 
     .header-controls {
@@ -148,6 +202,7 @@
       align-items: center;
       gap: 8px;
     }
+
     .toggle-btn {
       background: var(--btn-bg);
       color: var(--text-main);
@@ -159,7 +214,11 @@
       font-weight: 600;
       transition: all 0.2s;
     }
-    .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .toggle-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
 
     .collapse-btn {
       display: none;
@@ -187,11 +246,13 @@
       opacity: 1;
       transition: max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease;
     }
+
     #dashboard.collapsed .stats-row {
       max-height: 0;
       opacity: 0;
       pointer-events: none;
     }
+
     .stat-badge {
       display: flex;
       align-items: center;
@@ -202,7 +263,14 @@
       padding: 3px 9px;
       border-radius: 999px;
     }
-    .badge-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
 
     .progress-bar-bg {
       width: 100%;
@@ -211,6 +279,7 @@
       border-radius: 6px;
       overflow: hidden;
     }
+
     .progress-fill {
       height: 100%;
       width: 0%;
@@ -229,19 +298,56 @@
       background-size: 100% 100%, 24px 24px;
       background-position: 0 0, 0 0;
     }
-    #viewport:active { cursor: grabbing; }
 
-    svg#canvas { width: 100%; height: 100%; display: block; }
+    #viewport:active {
+      cursor: grabbing;
+    }
 
-    .link-solid { stroke: var(--link-color); stroke-width: 3; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
-    .link-dashed { stroke: var(--link-color); stroke-width: 3; stroke-dasharray: 6,6; fill: none; transition: stroke 0.2s; stroke-linejoin: round; stroke-linecap: round; }
+    svg#canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
-    .node-group { cursor: pointer; transition: transform 0.15s ease; transform-box: fill-box; transform-origin: center; }
+    /* أنماط الخطوط الملونة */
+    .link-solid {
+      stroke: var(--link-solid);
+      stroke-width: 3.2;
+      fill: none;
+      transition: stroke 0.2s;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    .link-dashed {
+      stroke: var(--link-dashed);
+      stroke-width: 3;
+      stroke-dasharray: 6, 6;
+      fill: none;
+      transition: stroke 0.2s;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    .node-group {
+      cursor: pointer;
+      transition: transform 0.15s ease;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
 
     @media (hover: hover) and (pointer: fine) {
-      .node-group:hover { transform: scale(1.05); }
-      .node-group:hover .node-circle { stroke-width: 5px; }
-      .node-group:hover .node-mask { filter: brightness(1.1); }
+      .node-group:hover {
+        transform: scale(1.05);
+      }
+
+      .node-group:hover .node-circle {
+        stroke-width: 5px;
+      }
+
+      .node-group:hover .node-mask {
+        filter: brightness(1.1);
+      }
     }
 
     .node-mask {
@@ -255,6 +361,7 @@
       stroke-width: 4.5px;
       transition: all 0.2s ease;
     }
+
     .status-ring {
       fill: none;
       stroke-width: 0px;
@@ -271,6 +378,7 @@
       user-select: none;
       transition: fill 0.3s;
     }
+
     .node-credits {
       font-size: 11px;
       font-weight: 600;
@@ -281,53 +389,124 @@
     }
 
     /* Arrow Hover Highlighting */
-    #scene.dimmed > * {
+    #scene.dimmed>* {
       opacity: 0.15;
       transition: opacity 0.2s;
     }
+
     #scene.dimmed .highlighted-arrow-group,
     #scene.dimmed .highlighted-node {
       opacity: 1 !important;
       transition: opacity 0.2s;
     }
+
     #scene.dimmed .highlighted-node .node-circle {
       stroke: var(--accent) !important;
       stroke-width: 4px !important;
       filter: drop-shadow(0 0 10px var(--accent-soft));
     }
+
     path.highlighted-arrow {
       stroke: var(--accent) !important;
       stroke-width: 5px !important;
       filter: drop-shadow(0 0 6px var(--accent-soft));
     }
 
-    .status-completed .status-ring { stroke: #10b981; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #10b981); }
-    .status-completed .node-mask { fill: var(--c-completed-bg); }
-    .status-completed .node-text { fill: var(--c-completed-text) !important; }
-
-    .status-current .status-ring { stroke: #3b82f6; stroke-width: 6px; animation: pulse-current-ring 2.6s ease-in-out infinite; }
-    .status-current .node-mask { fill: var(--c-current-bg); }
-    .status-current .node-text { fill: var(--c-current-text); }
-    @keyframes pulse-current-ring {
-      0%, 100% { filter: drop-shadow(0 0 var(--glow-intensity) #3b82f6); }
-      50% { filter: drop-shadow(0 0 calc(var(--glow-intensity) * 1.8) #3b82f6); }
+    .status-completed .status-ring {
+      stroke: #10b981;
+      stroke-width: 6px;
+      filter: drop-shadow(0 0 var(--glow-intensity) #10b981);
     }
 
-    .status-next .status-ring { stroke: #f59e0b; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #f59e0b); }
-    .status-next .node-mask { fill: var(--c-next-bg); }
-    .status-next .node-text { fill: var(--c-next-text); }
+    .status-completed .node-mask {
+      fill: var(--c-completed-bg);
+    }
 
-    .status-summer .status-ring { stroke: #ec4899; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #ec4899); }
-    .status-summer .node-mask { fill: var(--c-summer-bg); }
-    .status-summer .node-text { fill: var(--c-summer-text); }
+    .status-completed .node-text {
+      fill: var(--c-completed-text) !important;
+    }
 
-    .status-next-year .status-ring { stroke: #a855f7; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #a855f7); }
-    .status-next-year .node-mask { fill: var(--c-next-year-bg); }
-    .status-next-year .node-text { fill: var(--c-next-year-text); }
+    .status-current .status-ring {
+      stroke: #3b82f6;
+      stroke-width: 6px;
+      animation: pulse-current-ring 2.6s ease-in-out infinite;
+    }
 
-    .status-term-2028 .status-ring { stroke: #06b6d4; stroke-width: 6px; filter: drop-shadow(0 0 var(--glow-intensity) #06b6d4); }
-    .status-term-2028 .node-mask { fill: var(--c-term-2028-bg); }
-    .status-term-2028 .node-text { fill: var(--c-term-2028-text); }
+    .status-current .node-mask {
+      fill: var(--c-current-bg);
+    }
+
+    .status-current .node-text {
+      fill: var(--c-current-text);
+    }
+
+    @keyframes pulse-current-ring {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 var(--glow-intensity) #3b82f6);
+      }
+
+      50% {
+        filter: drop-shadow(0 0 calc(var(--glow-intensity) * 1.8) #3b82f6);
+      }
+    }
+
+    .status-next .status-ring {
+      stroke: #f59e0b;
+      stroke-width: 6px;
+      filter: drop-shadow(0 0 var(--glow-intensity) #f59e0b);
+    }
+
+    .status-next .node-mask {
+      fill: var(--c-next-bg);
+    }
+
+    .status-next .node-text {
+      fill: var(--c-next-text);
+    }
+
+    .status-summer .status-ring {
+      stroke: #ec4899;
+      stroke-width: 6px;
+      filter: drop-shadow(0 0 var(--glow-intensity) #ec4899);
+    }
+
+    .status-summer .node-mask {
+      fill: var(--c-summer-bg);
+    }
+
+    .status-summer .node-text {
+      fill: var(--c-summer-text);
+    }
+
+    .status-next-year .status-ring {
+      stroke: #a855f7;
+      stroke-width: 6px;
+      filter: drop-shadow(0 0 var(--glow-intensity) #a855f7);
+    }
+
+    .status-next-year .node-mask {
+      fill: var(--c-next-year-bg);
+    }
+
+    .status-next-year .node-text {
+      fill: var(--c-next-year-text);
+    }
+
+    .status-term-2028 .status-ring {
+      stroke: #06b6d4;
+      stroke-width: 6px;
+      filter: drop-shadow(0 0 var(--glow-intensity) #06b6d4);
+    }
+
+    .status-term-2028 .node-mask {
+      fill: var(--c-term-2028-bg);
+    }
+
+    .status-term-2028 .node-text {
+      fill: var(--c-term-2028-text);
+    }
 
     #actionModal {
       position: absolute;
@@ -338,21 +517,36 @@
       z-index: 200;
       background: var(--modal-bg);
       border-radius: 14px;
-      box-shadow: 0 20px 46px rgba(0,0,0,0.55);
+      box-shadow: 0 20px 46px rgba(0, 0, 0, 0.55);
       border: 1px solid var(--border-color);
       padding: 15px;
       width: 250px;
       overflow: hidden;
     }
-    #actionModal.show { opacity: 1; transform: scale(1) translateY(0); }
+
+    #actionModal.show {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
     #actionModal::before {
       content: "";
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 3px;
       background: linear-gradient(90deg, #38bdf8, #06b6d4);
     }
-    #actionModal h4 { margin: 0 0 10px 0; font-size: 0.88rem; color: var(--accent); text-align: center; font-weight: 700; }
+
+    #actionModal h4 {
+      margin: 0 0 10px 0;
+      font-size: 0.88rem;
+      color: var(--accent);
+      text-align: center;
+      font-weight: 700;
+    }
+
     .btn-status {
       display: block;
       width: 100%;
@@ -366,15 +560,55 @@
       font-weight: 600;
       transition: transform 0.1s, filter 0.15s;
     }
-    .btn-status:hover { filter: brightness(1.15); }
-    .btn-status:active { transform: scale(0.98); }
-    .btn-completed { background: rgba(16, 185, 129, 0.2); color: #10b981; border-color: #10b981; }
-    .btn-current { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border-color: #3b82f6; }
-    .btn-next { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border-color: #f59e0b; }
-    .btn-summer { background: rgba(236, 72, 153, 0.2); color: #ec4899; border-color: #ec4899; }
-    .btn-next-year { background: rgba(168, 85, 247, 0.2); color: #a855f7; border-color: #a855f7; }
-    .btn-term-2028 { background: rgba(6, 182, 212, 0.2); color: #06b6d4; border-color: #06b6d4; }
-    .btn-reset { background: var(--btn-bg); color: var(--text-muted); }
+
+    .btn-status:hover {
+      filter: brightness(1.15);
+    }
+
+    .btn-status:active {
+      transform: scale(0.98);
+    }
+
+    .btn-completed {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      border-color: #10b981;
+    }
+
+    .btn-current {
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .btn-next {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+      border-color: #f59e0b;
+    }
+
+    .btn-summer {
+      background: rgba(236, 72, 153, 0.2);
+      color: #ec4899;
+      border-color: #ec4899;
+    }
+
+    .btn-next-year {
+      background: rgba(168, 85, 247, 0.2);
+      color: #a855f7;
+      border-color: #a855f7;
+    }
+
+    .btn-term-2028 {
+      background: rgba(6, 182, 212, 0.2);
+      color: #06b6d4;
+      border-color: #06b6d4;
+    }
+
+    .btn-reset {
+      background: var(--btn-bg);
+      color: var(--text-muted);
+    }
 
     .legend-box {
       position: absolute;
@@ -384,15 +618,26 @@
       border: 1px solid var(--border-color);
       padding: 9px 14px;
       border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
       font-size: 0.72rem;
       display: flex;
       flex-direction: column;
       gap: 6px;
       z-index: 100;
     }
-    body[dir="ltr"] .legend-box { right: auto; left: 16px; }
-    .legend-item { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-weight: 500; }
+
+    body[dir="ltr"] .legend-box {
+      right: auto;
+      left: 16px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
 
     .zoom-controls {
       position: absolute;
@@ -403,7 +648,12 @@
       flex-direction: column;
       gap: 7px;
     }
-    body[dir="ltr"] .zoom-controls { left: auto; right: 16px; }
+
+    body[dir="ltr"] .zoom-controls {
+      left: auto;
+      right: 16px;
+    }
+
     .zoom-btn {
       width: 38px;
       height: 38px;
@@ -417,21 +667,53 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
       line-height: 1;
       padding: 0;
     }
-    .zoom-btn:active { transform: scale(0.92); }
-    .zoom-btn.fit-btn { font-size: 0.88rem; color: var(--accent); }
+
+    .zoom-btn:active {
+      transform: scale(0.92);
+    }
+
+    .zoom-btn.fit-btn {
+      font-size: 0.88rem;
+      color: var(--accent);
+    }
 
     @media (max-width: 768px) {
-      #dashboard { padding: 9px 12px; border-radius: 0; gap: 7px; }
-      .dash-header h2 { font-size: 0.88rem; }
-      .stats-row { font-size: 0.68rem; gap: 5px; }
-      .stat-badge { padding: 2px 7px; }
-      .legend-box { display: none; }
-      .collapse-btn { display: flex; }
-      .zoom-btn { width: 36px; height: 36px; }
+      #dashboard {
+        padding: 9px 12px;
+        border-radius: 0;
+        gap: 7px;
+      }
+
+      .dash-header h2 {
+        font-size: 0.88rem;
+      }
+
+      .stats-row {
+        font-size: 0.68rem;
+        gap: 5px;
+      }
+
+      .stat-badge {
+        padding: 2px 7px;
+      }
+
+      .legend-box {
+        display: none;
+      }
+
+      .collapse-btn {
+        display: flex;
+      }
+
+      .zoom-btn {
+        width: 36px;
+        height: 36px;
+      }
+
       #actionModal {
         position: fixed;
         top: 50% !important;
@@ -440,10 +722,14 @@
         width: 85vw;
         max-width: 300px;
       }
-      #actionModal.show { transform: translate(-50%, -50%) scale(1); }
+
+      #actionModal.show {
+        transform: translate(-50%, -50%) scale(1);
+      }
     }
   </style>
 </head>
+
 <body class="dark-mode" dir="rtl">
 
   <div id="dashboard">
@@ -455,8 +741,8 @@
         <button class="toggle-btn" onclick="toggleLang()" id="langBtn">🌐 English</button>
       </div>
       <div style="font-size: 0.8rem; color: var(--text-muted);">
-        <span id="lblProgress">الإنجاز:</span> 
-        <strong id="pctText" style="color: var(--accent);">0%</strong> 
+        <span id="lblProgress">الإنجاز:</span>
+        <strong id="pctText" style="color: var(--accent);">0%</strong>
         (<strong id="completedHours">0</strong> / <span id="totalHours">132</span> <span id="lblHoursUnit">ساعة</span>)
         - <span id="completedCourses">0</span> / <span id="totalCourses">0</span> <span id="lblCoursesUnit">مادة</span>
       </div>
@@ -465,24 +751,36 @@
       <div class="progress-fill" id="progressBar"></div>
     </div>
     <div class="stats-row">
-      <div class="stat-badge"><span class="badge-dot" style="background: #10b981;"></span> <span id="lblStatusCompleted">مكتمل:</span> <span id="count-completed">0 س</span></div>
-      <div class="stat-badge"><span class="badge-dot" style="background: #3b82f6;"></span> <span id="lblStatusCurrent">الأول 2026/2027:</span> <span id="count-current">0 س</span></div>
-      <div class="stat-badge"><span class="badge-dot" style="background: #f59e0b;"></span> <span id="lblStatusNext">الثاني 2027:</span> <span id="count-next">0 س</span></div>
-      <div class="stat-badge"><span class="badge-dot" style="background: #ec4899;"></span> <span id="lblStatusSummer">صيفي 2027:</span> <span id="count-summer">0 س</span></div>
-      <div class="stat-badge"><span class="badge-dot" style="background: #a855f7;"></span> <span id="lblStatusNextYear">الأول 2027/2028:</span> <span id="count-next-year">0 س</span></div>
-      <div class="stat-badge"><span class="badge-dot" style="background: #06b6d4;"></span> <span id="lblStatusTerm2028">الثاني 2028:</span> <span id="count-term-2028">0 س</span></div>
-      <div style="margin-right: auto; color: var(--text-muted); font-size: 0.7rem; font-weight: 500; opacity: 0.85;" id="lblControlsHint"></div>
+      <div class="stat-badge"><span class="badge-dot" style="background: #10b981;"></span> <span
+          id="lblStatusCompleted">مكتمل:</span> <span id="count-completed">0 س</span></div>
+      <div class="stat-badge"><span class="badge-dot" style="background: #3b82f6;"></span> <span
+          id="lblStatusCurrent">الأول 2026/2027:</span> <span id="count-current">0 س</span></div>
+      <div class="stat-badge"><span class="badge-dot" style="background: #f59e0b;"></span> <span
+          id="lblStatusNext">الثاني 2027:</span> <span id="count-next">0 س</span></div>
+      <div class="stat-badge"><span class="badge-dot" style="background: #ec4899;"></span> <span
+          id="lblStatusSummer">صيفي 2027:</span> <span id="count-summer">0 س</span></div>
+      <div class="stat-badge"><span class="badge-dot" style="background: #a855f7;"></span> <span
+          id="lblStatusNextYear">الأول 2027/2028:</span> <span id="count-next-year">0 س</span></div>
+      <div class="stat-badge"><span class="badge-dot" style="background: #06b6d4;"></span> <span
+          id="lblStatusTerm2028">الثاني 2028:</span> <span id="count-term-2028">0 س</span></div>
+      <div style="margin-right: auto; color: var(--text-muted); font-size: 0.7rem; font-weight: 500; opacity: 0.85;"
+        id="lblControlsHint"></div>
     </div>
   </div>
 
   <div class="legend-box">
-    <div style="font-weight: 700; margin-bottom: 2px; color: var(--accent); font-size: 0.74rem;" id="lblLegendTitle">دليل التوجيه الشبكي:</div>
+    <div style="font-weight: 700; margin-bottom: 2px; color: var(--accent); font-size: 0.74rem;" id="lblLegendTitle">
+      دليل التوجيه الشبكي:</div>
     <div class="legend-item">
-      <svg width="22" height="10"><line x1="0" y1="5" x2="22" y2="5" stroke="var(--link-color)" stroke-width="2.2"/></svg>
+      <svg width="24" height="10">
+        <line x1="0" y1="5" x2="24" y2="5" stroke="var(--link-solid)" stroke-width="2.6" />
+      </svg>
       <span id="lblPrereqPass">سابق نجاح</span>
     </div>
     <div class="legend-item">
-      <svg width="22" height="10"><line x1="0" y1="5" x2="22" y2="5" stroke="var(--link-color)" stroke-width="2.2" stroke-dasharray="4,4"/></svg>
+      <svg width="24" height="10">
+        <line x1="0" y1="5" x2="24" y2="5" stroke="var(--link-dashed)" stroke-width="2.6" stroke-dasharray="4,4" />
+      </svg>
       <span id="lblPrereqStudy">سابق دراسة / متزامن</span>
     </div>
     <div class="legend-item">
@@ -500,11 +798,20 @@
   <div id="viewport">
     <svg id="canvas">
       <defs>
-        <marker id="arrow-solid" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
-          <path d="M 0 0 L 9 5 L 0 10 Z" fill="var(--link-color)" />
+        <!-- رأس سهم أزرق لسابق النجاح -->
+        <marker id="arrow-solid" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10" refY="8"
+          orient="auto">
+          <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--link-solid)" />
         </marker>
-        <marker id="arrow-dashed" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
-          <path d="M 0 0 L 9 5 L 0 10 Z" fill="var(--link-color)" />
+        <!-- رأس سهم نهدي لسابق الدراسة -->
+        <marker id="arrow-dashed" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10" refY="8"
+          orient="auto">
+          <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--link-dashed)" />
+        </marker>
+        <!-- رأس سهم للتظليل عند التمرير -->
+        <marker id="arrow-highlighted" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10"
+          refY="8" orient="auto">
+          <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--accent)" />
         </marker>
       </defs>
       <g id="scene"></g>
@@ -514,11 +821,15 @@
   <div id="actionModal">
     <h4 id="modalCourseTitle">اسم المادة</h4>
     <button class="btn-status btn-completed" onclick="setCourseStatus('completed')" id="btnMCompleted">✅ مكتمل</button>
-    <button class="btn-status btn-current" onclick="setCourseStatus('current')" id="btnMCurrent">📘 الفصل الأول 2026/2027</button>
+    <button class="btn-status btn-current" onclick="setCourseStatus('current')" id="btnMCurrent">📘 الفصل الأول
+      2026/2027</button>
     <button class="btn-status btn-next" onclick="setCourseStatus('next')" id="btnMNext">⏳ الفصل الثاني 2027</button>
-    <button class="btn-status btn-summer" onclick="setCourseStatus('summer')" id="btnMSummer">☀️ الفصل الصيفي 2027</button>
-    <button class="btn-status btn-next-year" onclick="setCourseStatus('next-year')" id="btnMNextYear">🎯 الفصل الأول 2027/2028</button>
-    <button class="btn-status btn-term-2028" onclick="setCourseStatus('term-2028')" id="btnMTerm2028">💎 الفصل الثاني 2028</button>
+    <button class="btn-status btn-summer" onclick="setCourseStatus('summer')" id="btnMSummer">☀️ الفصل الصيفي
+      2027</button>
+    <button class="btn-status btn-next-year" onclick="setCourseStatus('next-year')" id="btnMNextYear">🎯 الفصل الأول
+      2027/2028</button>
+    <button class="btn-status btn-term-2028" onclick="setCourseStatus('term-2028')" id="btnMTerm2028">💎 الفصل الثاني
+      2028</button>
     <button class="btn-status btn-reset" onclick="setCourseStatus('none')" id="btnMReset">⚪ غير محدد (متبقي)</button>
   </div>
 
@@ -601,7 +912,7 @@
       { id: "uni_elec1", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (1)", cr: 3, x: 430, y: 140, stroke: "#64748b" },
       { id: "life_skills", name_ar: "المهارات\nالحياتية", name_en: "Life\nSkills", cr: 2, x: 210, y: 140, stroke: "#8b5cf6" },
 
-      // الصف 2 (y: 330)
+      // الصف 2 (y: 420)
       { id: "uni_elec2", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (2)", cr: 3, x: 1750, y: 420, stroke: "#64748b" },
       { id: "prob", name_ar: "إحصاء\nواحتمالات", name_en: "Probability &\nStatistics", cr: 3, x: 1530, y: 420, stroke: "#f472b6" },
       { id: "num_anal", name_ar: "تحليل\nعددي", name_en: "Numerical\nAnalysis", cr: 3, x: 1310, y: 420, stroke: "#f472b6" },
@@ -610,7 +921,7 @@
       { id: "comm_ethics", name_ar: "مهارات\nالاتصال\nوأخلاقيات المهنة", name_en: "Ethics & Comm.\nSkills", cr: 2, x: 650, y: 420, stroke: "#0284c7" },
       { id: "entrep", name_ar: "الريادة\nوالابتكار", name_en: "Entrepreneurship\n& Innovation", cr: 2, x: 430, y: 420, stroke: "#8b5cf6" },
 
-      // الصف 3 (y: 520)
+      // الصف 3 (y: 700)
       { id: "uni_elec3", name_ar: "متطلب جامعة\nاختياري", name_en: "University\nElective (3)", cr: 3, x: 1750, y: 700, stroke: "#64748b" },
       { id: "mil_sci", name_ar: "علوم عسكرية", name_en: "Military\nSciences", cr: 3, x: 1530, y: 700, stroke: "#8b5cf6" },
       { id: "discrete", name_ar: "رياضيات\nمتقطعة", name_en: "Discrete\nMath", cr: 3, x: 1310, y: 700, stroke: "#f472b6" },
@@ -620,7 +931,7 @@
       { id: "data_modeling", name_ar: "نمذجة\nالبيانات", name_en: "Data\nModeling", cr: 3, x: 430, y: 700, stroke: "#b91c1c" },
       { id: "intro_web", name_ar: "مقدمة في\nصفحات الويب", name_en: "Intro to Web\nPages", cr: 3, x: 210, y: 700, stroke: "#0284c7" },
 
-      // الصف 4 (y: 710)
+      // الصف 4 (y: 980)
       { id: "db_fund", name_ar: "أساسيات\nقواعد\nالبيانات", name_en: "Database\nFundamentals", cr: 3, x: 1750, y: 980, stroke: "#0284c7" },
       { id: "se_fund", name_ar: "أساسيات\nهندسة\nالبرمجيات", name_en: "Software Eng.\nFundamentals", cr: 3, x: 1530, y: 980, stroke: "#b91c1c" },
       { id: "algo", name_ar: "تحليل\nوتصميم\nالخوارزميات", name_en: "Algorithms\nAnalysis & Design", cr: 3, x: 1310, y: 980, stroke: "#f59e0b" },
@@ -629,7 +940,7 @@
       { id: "dept_elec1", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(1)", cr: 3, x: 650, y: 980, stroke: "#b91c1c" },
       { id: "web_dev", name_ar: "تطوير\nتطبيقات\nالويب", name_en: "Web App\nDevelopment", cr: 3, x: 430, y: 980, stroke: "#0284c7" },
 
-      // الصف 5 (y: 900)
+      // الصف 5 (y: 1260)
       { id: "se_req", name_ar: "هندسة\nمتطلبات\nالبرمجيات", name_en: "Software Req.\nEngineering", cr: 3, x: 1750, y: 1260, stroke: "#b91c1c" },
       { id: "sys_analysis", name_ar: "تحليل\nوتصميم\nالأنظمة", name_en: "Systems Analysis\n& Design", cr: 3, x: 1530, y: 1260, stroke: "#b91c1c" },
       { id: "sw_doc", name_ar: "توثيق\nالبرمجيات", name_en: "Software\nDocumentation", cr: 3, x: 1310, y: 1260, stroke: "#b91c1c" },
@@ -639,77 +950,74 @@
       { id: "server_prog", name_ar: "برمجة\nالخادم -\nالمستفيد", name_en: "Client-Server\nProgramming", cr: 3, x: 430, y: 1260, stroke: "#b91c1c" },
       { id: "web_eng", name_ar: "هندسة\nتطبيقات\nالويب", name_en: "Web App\nEngineering", cr: 3, x: 210, y: 1260, stroke: "#b91c1c" },
 
-      // الصف 6 (y: 1090)
+      // الصف 6 (y: 1540)
       { id: "se_testing", name_ar: "فحص\nالبرمجيات", name_en: "Software\nTesting", cr: 3, x: 1750, y: 1540, stroke: "#b91c1c" },
       { id: "proj_mgmt", name_ar: "إدارة\nالمشاريع", name_en: "Project\nManagement", cr: 3, x: 1530, y: 1540, stroke: "#b91c1c" },
       { id: "se_arch", name_ar: "معمارية\nوتصميم\nالبرمجيات", name_en: "Software Arch.\n& Design", cr: 3, x: 1310, y: 1540, stroke: "#b91c1c" },
-      { id: "cyber_sec", name_ar: "أمن\nالبرمجيات", name_en: "Software\nSecurity", cr: 3, x: 1090, y: 1540, stroke: "#10b981" },
+      { id: "cyber_sec", name_ar: "أمن\nالبرمجيات", name_en: "Software\nSecurity", cr: 3, x: 1090, y: 1540, stroke: "#06b6d4" },
       { id: "dept_elec2", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(2)", cr: 3, x: 870, y: 1540, stroke: "#b91c1c" },
       { id: "dept_elec3", name_ar: "متطلب\nقسم\nاختياري", name_en: "Dept Elective\n(3)", cr: 3, x: 650, y: 1540, stroke: "#b91c1c" },
       { id: "training", name_ar: "تدريب\nميداني", name_en: "Field\nTraining", cr: 3, x: 430, y: 1540, stroke: "#b91c1c" },
 
-      // الصف 7 (y: 1270)
+      // الصف 7 (y: 1805)
       { id: "proj1", name_ar: "مشروع تخرج\n1", name_en: "Graduation Proj\n(1)", cr: 1, x: 1200, y: 1805, stroke: "#b91c1c" },
       { id: "proj2", name_ar: "مشروع تخرج\n2", name_en: "Graduation Proj\n(2)", cr: 2, x: 980, y: 1805, stroke: "#b91c1c" }
     ];
 
-    // روابط الأسهم المطابقة بدقة للبوستر (تمت إزالة أي أسهم وهمية من تكنولوجيا المعلومات)
+    // روابط الأسهم بناءً على طلبك بالكامل
     const links = [
-  // --- الصف 1 ---
-  { from: "calc1", to: "calc2", type: "solid" },                 
-  { from: "calc1", to: "prog1", type: "dashed" },         
-  { from: "intro_it", to: "prog1", type: "dashed" },             
+      // --- الصف 1 ---
+      { from: "calc1", to: "calc2", type: "solid" },
+      { from: "calc1", to: "prog1", type: "dashed" },
+      { from: "intro_it", to: "prog1", type: "dashed" },
 
-  // --- الصف 1 إلى 2 ---
-  { from: "calc2", to: "prob", type: "dashed" },                  
-  { from: "calc2", to: "num_anal", type: "dashed" },              
-  { from: "prog1", to: "oop", type: "solid" },                   
+      // --- الصف 1 إلى 2 ---
+      { from: "calc2", to: "prob", type: "dashed" },
+      { from: "calc2", to: "num_anal", type: "dashed" },
+      { from: "prog1", to: "oop", type: "solid" },
 
-  // --- الصف 2 إلى 3 ---
-  { from: "oop", to: "oop_java", type: "solid" },                 
-  { from: "oop", to: "ds", type: "solid" },                       
-  { from: "oop", to: "dig_logic", type: "dashed" },               
-  { from: "oop", to: "data_modeling", type: "dashed" },           
-  { from: "oop", to: "intro_web", type: "dashed" },              
+      // --- الصف 2 إلى 3 ---
+      { from: "oop", to: "oop_java", type: "solid" },
+      { from: "oop", to: "ds", type: "solid" },
+      { from: "oop", to: "dig_logic", type: "dashed" },
+      { from: "oop", to: "data_modeling", type: "dashed" },
+      { from: "oop", to: "intro_web", type: "dashed" },
 
-  // --- الصف 3 إلى 4 ---
-  { from: "discrete", to: "ds", type: "dashed" },                  
-  { from: "oop_java", to: "visual_prog", type: "solid" },         
-  { from: "intro_web", to: "web_dev", type: "dashed" },           
-  { from: "dig_logic", to: "biz_data_comm", type: "dashed" },    
-  { from: "ds", to: "biz_data_comm", type: "dashed" },           
-  { from: "ds", to: "algo", type: "dashed" },                    
-  { from: "ds", to: "se_fund", type: "dashed" },                  
-  { from: "ds", to: "db_fund", type: "dashed" },                  
+      // --- الصف 3 إلى 4 ---
+      { from: "discrete", to: "ds", type: "dashed" },
+      { from: "oop_java", to: "visual_prog", type: "solid" },
+      { from: "intro_web", to: "web_dev", type: "dashed" },
+      { from: "dig_logic", to: "biz_data_comm", type: "dashed" },
+      { from: "ds", to: "biz_data_comm", type: "dashed" },
+      { from: "ds", to: "algo", type: "dashed" },
+      { from: "ds", to: "se_fund", type: "dashed" },
+      { from: "ds", to: "db_fund", type: "dashed" },
 
-  // --- الصف 4 إلى 5 ---
-  { from: "db_fund", to: "se_req", type: "solid" },                             
-  { from: "data_modeling", to: "se_req", type: "dashed" },
-  { from: "se_fund", to: "sys_analysis", type: "dashed" },        
-  { from: "se_fund", to: "sys_analysis", type: "dashed" },        
-  { from: "db_fund", to: "sys_analysis", type: "dashed" },          
+      // --- الصف 4 إلى 5 ---
+      { from: "data_modeling", to: "se_req", type: "dashed" },
+      { from: "se_fund", to: "sys_analysis", type: "dashed" },
+      { from: "se_fund", to: "sys_analysis", type: "dashed" },
+      { from: "db_fund", to: "sys_analysis", type: "dashed" },
 
-  { from: "sys_analysis", to: "se_req", type: "dashed" },                                                                   
-  { from: "se_fund", to: "sw_doc", type: "dashed" },                
-  { from: "visual_prog", to: "se_lab", type: "dashed" },               
-  { from: "visual_prog", to: "server_prog", type: "solid" }, 
-  { from: "algo", to: "os", type: "dashed" },                     
-  { from: "visual_prog", to: "hci", type: "dashed" },            
-  { from: "web_dev", to: "web_eng", type: "dashed" },             
-  { from: "server_prog", to: "web_eng", type: "dashed" },        
+      { from: "sys_analysis", to: "se_req", type: "dashed" },
+      { from: "se_fund", to: "sw_doc", type: "dashed" },
+      { from: "visual_prog", to: "se_lab", type: "dashed" },
+      { from: "visual_prog", to: "server_prog", type: "solid" },
+      { from: "algo", to: "os", type: "dashed" },
+      { from: "visual_prog", to: "hci", type: "dashed" },
+      { from: "web_dev", to: "web_eng", type: "dashed" },
+      { from: "server_prog", to: "web_eng", type: "dashed" },
 
+      // --- الصف 5 إلى 6 ---
+      { from: "sys_analysis", to: "se_testing", type: "dashed" },
+      { from: "sys_analysis", to: "proj_mgmt", type: "dashed" },
+      { from: "sys_analysis", to: "se_arch", type: "dashed" },
+      { from: "se_arch", to: "cyber_sec", type: "dashed" },
+      { from: "num_anal", to: "cyber_sec", type: "dashed" },
 
-  // --- الصف 5 إلى 6 ---
-  { from: "sys_analysis", to: "se_testing", type: "dashed" },            
-  { from: "sys_analysis", to: "proj_mgmt", type: "dashed" },      
-  { from: "sys_analysis", to: "se_arch", type: "dashed" },         
-  { from: "se_arch", to: "cyber_sec", type: "dashed" },           
-  { from: "num_anal", to: "cyber_sec", type: "dashed" },         
-
-  // --- الصف 7 (مشاريع التخرج) ---
-  { from: "proj1", to: "proj2", type: "dashed" }  
-  
-  ];
+      // --- الصف 7 (مشاريع التخرج) ---
+      { from: "proj1", to: "proj2", type: "dashed" }
+    ];
 
     let userState = JSON.parse(localStorage.getItem('se_clean_plan_v2022_final') || '{}');
     let activeCourseId = null;
@@ -718,11 +1026,10 @@
     const nodesMap = {};
     nodes.forEach(n => nodesMap[n.id] = n);
 
-    // خوارزمية التوجيه الشبكي المتعامد المحسنة (منع تقاطع أي خط مع المواد)
     function generateOrthogonalPath(source, target, offset = 0) {
       const r = ringRadius;
-      
-      // مسار عمودي مباشر إذا كانت المادتان على نفس المحور الرأسي تماماً
+
+      // مسار عمودي مباشر
       if (Math.abs(source.x - target.x) < 8 && target.y > source.y) {
         return `M ${source.x} ${source.y + r} L ${target.x} ${target.y - r - 10}`;
       }
@@ -733,11 +1040,10 @@
         const startY = source.y + r;
         const endX = target.x;
         const endY = target.y - r - 10;
-        
-        // نمرر الخط عبر الفراغ الرأسي بين الأعمدة
+
         const channel1Y = source.y + 128 + offset;
         const channel2Y = target.y - 150 + offset;
-        const gapX = target.x + 110; // الفراغ إلى يمين المادة الهدف
+        const gapX = target.x + 110;
 
         return `M ${startX} ${startY} 
                 L ${startX} ${channel1Y} 
@@ -747,21 +1053,7 @@
                 L ${endX} ${endY}`;
       }
 
-      // المسارات العادية بين الصفوف المتتالية
-      if (target.y > source.y && target.y - source.y <= 310) {
-        const startX = source.x;
-        const startY = source.y + r;
-        const endX = target.x;
-        const endY = target.y - r - 10;
-        const channelY = source.y + 128 + offset;
-
-        return `M ${startX} ${startY} 
-                L ${startX} ${channelY} 
-                L ${endX} ${channelY} 
-                L ${endX} ${endY}`;
-      }
-
-      // المسارات الأفقية
+      // المسارات الأفقية في نفس الصف
       if (Math.abs(source.y - target.y) <= 30) {
         const isLeft = target.x < source.x;
         const startX = source.x + (isLeft ? -r : r);
@@ -769,7 +1061,7 @@
         return `M ${startX} ${source.y} L ${endX} ${target.y}`;
       }
 
-      // الحالات الأخرى
+      // المسارات العادية بين الصفوف المتتالية
       const startX = source.x;
       const startY = source.y + r;
       const endX = target.x;
@@ -803,7 +1095,7 @@
       document.getElementById('lblStatusSummer').innerText = t.stSummer;
       document.getElementById('lblStatusNextYear').innerText = t.stNextYear;
       document.getElementById('lblStatusTerm2028').innerText = t.stTerm2028;
-      
+
       document.getElementById('lblControlsHint').innerText = isMobileDevice() ? t.hintMobile : t.hintPC;
 
       document.getElementById('lblLegendTitle').innerText = t.legTitle;
@@ -838,14 +1130,14 @@
       scene.innerHTML = '';
       const defs = document.querySelector('defs');
       if (defs) defs.innerHTML = `
-        <marker id="arrow-solid" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" refX="10" refY="10" orient="auto">
-          <path d="M 0 0 L 18 10 L 0 20 Z" fill="var(--link-color)" />
+        <marker id="arrow-solid" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10" refY="8" orient="auto">
+          <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--link-solid)" />
         </marker>
-        <marker id="arrow-dashed" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" refX="10" refY="10" orient="auto">
-          <path d="M 0 0 L 18 10 L 0 20 Z" fill="var(--link-color)" />
+        <marker id="arrow-dashed" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10" refY="8" orient="auto">
+          <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--link-dashed)" />
         </marker>
-        <marker id="arrow-highlighted" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" refX="10" refY="10" orient="auto">
-          <path d="M 0 0 L 18 10 L 0 20 Z" fill="var(--accent)" />
+        <marker id="arrow-highlighted" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="10" refY="8" orient="auto">
+          <path d="M 0 0 L 14 8 L 0 16 Z" fill="var(--accent)" />
         </marker>
       `;
 
@@ -855,7 +1147,7 @@
         if (!source || !target) return;
 
         const sourceIdx = nodes.findIndex(n => n.id === source.id);
-        const channelOffset = (sourceIdx % 8 - 3.5) * 16;
+        const channelOffset = (sourceIdx % 8 - 3.5) * 14;
         const d = generateOrthogonalPath(source, target, channelOffset);
 
         const gPath = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -863,7 +1155,7 @@
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("d", d);
         path.setAttribute("class", l.type === 'dashed' ? 'link-dashed' : 'link-solid');
-        
+
         if (l.type === 'dashed') {
           path.setAttribute("stroke-dasharray", "8, 6");
         }
@@ -912,38 +1204,53 @@
         g.setAttribute("class", `node-group status-${userState[n.id] || 'none'}`);
         g.setAttribute("id", `node-${n.id}`);
 
-        let pressTimer = null;
-        let isLongPress = false;
-
-        const startPress = (clientX, clientY) => {
-          isLongPress = false;
-          pressTimer = setTimeout(() => {
-            isLongPress = true;
-            if (navigator.vibrate) navigator.vibrate(40);
-            openModal(clientX, clientY, n);
-          }, 450);
-        };
-
-        const cancelPress = () => {
-          if (pressTimer) clearTimeout(pressTimer);
-        };
+        // --- محرك اللمس الحديث للهواتف ---
+        let touchStartX = 0, touchStartY = 0;
+        let isMoved = false;
+        let longPressTimer = null;
+        let isLongPressed = false;
 
         g.addEventListener('touchstart', (e) => {
           if (e.touches.length === 1) {
             const touch = e.touches[0];
-            startPress(touch.clientX, touch.clientY);
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            isMoved = false;
+            isLongPressed = false;
+
+            longPressTimer = setTimeout(() => {
+              if (!isMoved) {
+                isLongPressed = true;
+                if (navigator.vibrate) navigator.vibrate(40);
+                openModal(touchStartX, touchStartY, n);
+              }
+            }, 450);
+          } else {
+            if (longPressTimer) clearTimeout(longPressTimer);
           }
         }, { passive: true });
 
-        g.addEventListener('touchmove', cancelPress, { passive: true });
+        g.addEventListener('touchmove', (e) => {
+          if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            const dist = Math.hypot(touch.clientX - touchStartX, touch.clientY - touchStartY);
+            if (dist > 8) {
+              isMoved = true;
+              if (longPressTimer) clearTimeout(longPressTimer);
+            }
+          }
+        }, { passive: true });
 
         g.addEventListener('touchend', (e) => {
-          cancelPress();
-          if (!isLongPress && e.changedTouches.length === 1) {
+          if (longPressTimer) clearTimeout(longPressTimer);
+
+          if (!isMoved && !isLongPressed && e.changedTouches.length === 1) {
+            e.preventDefault();
             toggleComplete(n.id);
           }
         });
 
+        // للماوس
         g.onclick = (e) => {
           e.stopPropagation();
           toggleComplete(n.id);
@@ -1037,7 +1344,7 @@
       modal.style.display = 'none';
     }
 
-    window.onclick = function(e) {
+    window.onclick = function (e) {
       if (!e.target.closest('#actionModal')) {
         hideModal();
       }
@@ -1128,7 +1435,6 @@
         minX = vw - pad - b.maxX * scale;
         maxX = pad - b.minX * scale;
       } else {
-        // Graph is smaller than viewport, keep it within the viewport bounds
         minX = -b.minX * scale;
         maxX = vw - gW - b.minX * scale;
       }
@@ -1137,7 +1443,6 @@
         minY = vh - pad - b.maxY * scale;
         maxY = headerH + pad - b.minY * scale;
       } else {
-        // Graph is smaller than available height, keep it within bounds
         minY = headerH - b.minY * scale;
         maxY = vh - gH - b.minY * scale;
       }
@@ -1244,6 +1549,7 @@
 
     const viewport = document.getElementById('viewport');
 
+    // سحب بالماوس
     viewport.addEventListener('mousedown', (e) => {
       if (e.target.closest('.node-group') || e.button !== 0) return;
       isPanning = true;
@@ -1268,8 +1574,9 @@
       applyTransform();
     }, { passive: false });
 
+    // سحب ولمس بالهاتف
     viewport.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1 && !e.target.closest('.node-group')) {
+      if (e.touches.length === 1) {
         isPanning = true;
         startX = e.touches[0].clientX - currentX;
         startY = e.touches[0].clientY - currentY;
@@ -1329,4 +1636,5 @@
     }
   </script>
 </body>
+
 </html>
